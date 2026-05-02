@@ -15,3 +15,4 @@ struct ProjectApp: App {
         }
     }
 }
+// This is the applications entry point.
