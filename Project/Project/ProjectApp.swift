@@ -11,8 +11,8 @@ import SwiftUI
 struct ProjectApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomePageView()
         }
     }
 }
-// This is the applications entry point.
+
