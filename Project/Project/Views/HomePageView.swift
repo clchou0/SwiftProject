@@ -49,7 +49,7 @@ struct HomePageView: View {
     private var headerSection: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text("Good evening")
+                Text(greeting)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 Text("El Restaurant")
@@ -145,6 +145,16 @@ struct HomePageView: View {
            .padding(.top, 8)
        }
    }
+
+// Greetings var based on time
+private var greeting: String {
+    let hour = Calendar.current.component(.hour, from: Date())
+    switch hour {
+    case 5..<12: return "Good morning!"
+    case 12..<17: return "Good afternoon!"
+    default: return "Good evening!"
+    }
+}
 
 // Placeholder sheet used for demo
 struct PlaceholderSheet: View {
