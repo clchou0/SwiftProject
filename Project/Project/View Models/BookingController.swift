@@ -14,7 +14,7 @@ enum Route: Hashable {
     case order      // sessionID
     case checkout
 }
-
+//displays the current availability of a table
 enum TableStatus {
     case reserved
     case short  // Maybe one reserved for 2 hrs later (less than window)
