@@ -18,4 +18,4 @@ struct ProjectApp: App {
         }
     }
 }
-
+// This structure is the entry point for the application.
