@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Defines a dish with image, name & description
+// Defines a dish with a unique ID, image, name & description
 struct DishModel: Codable, Identifiable {
     let id = UUID();
     let name: String;
