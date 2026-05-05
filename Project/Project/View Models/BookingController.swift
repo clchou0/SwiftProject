@@ -8,20 +8,9 @@
 import Foundation
 
 // All views that can be accessed
-enum Route: Hashable {
-    case home
-    case tables
-    case order      // sessionID
-    case checkout
-}
 
-enum TableStatus {
-    case reserved
-    case short  // Maybe one reserved for 2 hrs later (less than window)
-    case available
-}
 
-class BookingController {
+class SessionController {
     
     init() {
         // Fetch details if provided
@@ -32,7 +21,7 @@ class BookingController {
     var routes: Set<Route> = [];
     var currentSession: BookSessionModel?;
     // Helps visualize colors in booking map
-    var tableStatuses: [UUID: TableStatus] = [:];
+    // var tableStatuses: [UUID: TableStatus] = [:];
     
     // When having tapped a valid session, load all details of it within the current scope
     func loadSession() {

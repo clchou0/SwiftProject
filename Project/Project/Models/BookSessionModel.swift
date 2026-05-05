@@ -26,13 +26,11 @@ struct BookSessionModel: Codable, Identifiable {
     let id = UUID();
     
     // Table details
-    var name: String?;
-    var phone: String?;
-    var email: String?;
-    var resvTime: Date?;
-    var numPeople: Int?;
+    var tableID: UUID;
+    var resvTime: Date;
+    var numPeople: Int;
     
-    // Order Details
+    // Ordering of each dish
     var orderDetails: [DishDetails] = [];
     var status: BookStatus = BookStatus.Processing;
 }

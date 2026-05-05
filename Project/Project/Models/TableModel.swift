@@ -7,6 +7,14 @@
 
 import Foundation
 
+// Status representation of a table
+enum TableStatus {
+    case reserved
+    case short(String)  // Maybe one reserved for 2 hrs later (less than window)
+    case available
+}
+
+// For visualising the table
 struct TableModel: Codable, Identifiable {
     let id = UUID();
     let name: String;
