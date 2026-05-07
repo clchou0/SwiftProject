@@ -17,8 +17,8 @@ enum TableStatus {
 // For visualising the table
 struct TableModel: Codable, Identifiable {
     let id = UUID();
-    let name: String;
-    let tableWidth: Int;
+    let number: Int;
+    let width: Int;
     let position: CGPoint;
     
     /**

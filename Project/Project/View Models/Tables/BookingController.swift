@@ -10,7 +10,7 @@ import Foundation
 // All views that can be accessed
 
 
-class SessionController {
+class BookingController {
     
     init() {
         // Fetch details if provided

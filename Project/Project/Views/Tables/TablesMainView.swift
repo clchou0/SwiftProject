@@ -8,23 +8,23 @@
 import SwiftUI
 
 struct TablesMainView: View {
+    @State private var computedScale = 1.0;
     var body: some View {
         VStack {
             Text("Booking for 16 May 8:00PM")
-                .font(.system(size: 25, design: .serif)).bold()
-                .foregroundStyle(Color.green)
+                .font(.system(.title, design: .serif).bold())
             
             GeometryReader { geo in
                 // Default restaurant ground
-                let scale = min(
-                    geo.size.width / 1000,
-                    geo.size.height / 700
+                let computedScale = min(
+                    geo.size.width / 300,
+                    geo.size.height / 400
                 )
                 
                 ZStack {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.3))
-                    
+                        .fill(Color.gray.opacity(0))
+                    TablesChildView(control: FloorController()).scaleEffect(computedScale)
                     // ChildView()
                 }
             }
