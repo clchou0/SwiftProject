@@ -8,7 +8,6 @@
 import Foundation
 // This enum represents the different stages of a booking, from processing to finished
 enum BookStatus: String, Codable {
-    case Processing;
     case Booked; // Gotten into confirmation screen
     case Paid;
     case Finished;
@@ -26,13 +25,12 @@ struct BookSessionModel: Codable, Identifiable {
     let id = UUID();
     
     // Table details
-    var name: String?;
-    var phone: String?;
-    var email: String?;
-    var resvTime: Date?;
-    var numPeople: Int?;
+    var tableID: UUID;
+    var resvTime: Date;
+    var numPeople: Int;
+    var bookingName: String
     
-    // Order Details
+    // Ordering of each dish
     var orderDetails: [DishDetails] = [];
-    var status: BookStatus = BookStatus.Processing;
+    var status: BookStatus = BookStatus.Booked;
 }
