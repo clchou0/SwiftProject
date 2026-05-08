@@ -24,7 +24,7 @@ class BookingController {
     // var tableStatuses: [UUID: TableStatus] = [:];
     
     // When having tapped a valid session, load all details of it within the current scope
-    func loadSession() {
+    func loadSession(sessionID: UUID?) {
         
     }
     

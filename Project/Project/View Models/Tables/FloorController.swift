@@ -20,9 +20,10 @@ class FloorController {
         TableModel(number: 2, width: 4, position: CGPoint(x: 60, y: 160)),
         TableModel(number: 3, width: 3, position: CGPoint(x: 60, y: 320)),
         TableModel(number: 4, width: 2, position: CGPoint(x: 150, y: 70)),
-        TableModel(number: 5, width: 3, position: CGPoint(x: 150, y: 210)),
-        TableModel(number: 6, width: 5, position: CGPoint(x: 240, y: 110)),
-        TableModel(number: 7, width: 3, position: CGPoint(x: 240, y: 290))
+        TableModel(number: 5, width: 2, position: CGPoint(x: 150, y: 150)),
+        TableModel(number: 6, width: 2, position: CGPoint(x: 150, y: 240)),
+        TableModel(number: 7, width: 5, position: CGPoint(x: 240, y: 110)),
+        TableModel(number: 8, width: 3, position: CGPoint(x: 240, y: 290))
     ];
     var booking: [Int: TableStatus] = [
         5: .short("6:45"),

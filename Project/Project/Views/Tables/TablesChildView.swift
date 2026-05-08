@@ -37,5 +37,5 @@ struct TablesChildView: View {
 }
 
 #Preview {
-    TablesChildView(control: FloorController());
+    TablesChildView(control: FloorController(sessionID: nil));
 }
