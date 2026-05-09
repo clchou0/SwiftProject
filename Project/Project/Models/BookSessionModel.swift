@@ -22,13 +22,20 @@ struct DishDetails: Codable, Identifiable {
 
 // Contains details of a single booking
 struct BookSessionModel: Codable, Identifiable {
-    let id = UUID();
-    
+    let id: UUID;
     // Table details
-    var tableID: UUID?;
-    var resvTime: Date?;
-    var numPeople: Int?;
-    var bookingName: String?;
+    var tableNo: Int?;
+    var resvTime: Date;
+    var numPeople: Int;
+    var bookingName: String;
+    
+    init() {
+        id = UUID();
+        tableNo = nil;
+        resvTime = Date.tomorrow.setTime(hour: 11, minute: 0);
+        numPeople = 1;
+        bookingName = "";
+    }
     
     // Ordering of each dish: currently not supported
 //    var orderDetails: [DishDetails] = [];

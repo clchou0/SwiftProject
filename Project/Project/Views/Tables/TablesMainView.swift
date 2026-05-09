@@ -13,7 +13,7 @@ struct TablesMainView: View {
     let serifFont: Font = .system(size: 20, design: .serif).bold();
     var body: some View {
         VStack {
-            Text("Booking for 16 May 8:00PM").font(.system(.title, design: .serif).bold());
+            Text("Booking for 16 May 8:00PM").font(serifFont.bold());
             
             GeometryReader { geo in
                 // Default restaurant ground
@@ -21,7 +21,7 @@ struct TablesMainView: View {
                 
                 ZStack {
                     Rectangle().fill(Color.gray.opacity(0));
-                    TablesChildView(control: FloorController()).scaleEffect(computedScale);
+                    TablesChildView().scaleEffect(computedScale);
                 }
             }
             
@@ -30,7 +30,7 @@ struct TablesMainView: View {
             Button {
                 print("Hello");
             } label: {
-                Text("Proceed to Booking").font(serifFont).frame(maxWidth: .infinity).padding()
+                Text("Confirm Booking").font(serifFont).frame(maxWidth: .infinity).padding()
             }.buttonStyle(PrimaryButtonStyle())
         }.padding(15)
     }

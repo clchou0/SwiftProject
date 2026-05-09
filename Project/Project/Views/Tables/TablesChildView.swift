@@ -8,13 +8,18 @@
 import SwiftUI
 
 struct TablesChildView: View {
-    var control: FloorController;
+    @State private var control = FloorController();
+    @State private var created: Bool = false;
+    init() {
+        control.loadTables();
+        created = true
+    }
     
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(Color.gray.opacity(0.3))
-            
+            Text(String(self.created));
             // Rules of how the table looks like
             ForEach(control.tables) { table in
                 Rectangle()
@@ -35,11 +40,12 @@ struct TablesChildView: View {
             }
         }.frame(width: 300, height: 400)
         .onAppear {
-            control.loadTables()
+            control.loadTables();
+            created = true
         }
-    }
+}
 }
 
 #Preview {
-    TablesChildView(control: FloorController());
+    TablesChildView();
 }

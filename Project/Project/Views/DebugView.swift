@@ -10,10 +10,14 @@ import SwiftUI
 enum Display {
     case table;
     case booking;
+    case remote;
 }
 
 struct DebugView: View {
     @State var tables: [TableModel] = []
+    @State var bookings: [BookSessionModel] = []
+    @State var remote: [BookSessionModel] = []
+    
     @State var display: Display = .table;
     var body: some View {
         
@@ -25,6 +29,9 @@ struct DebugView: View {
                 }
                 Button("BOOKING") {
                     display = .booking
+                }
+                Button("REMOTE") {
+                    display = .remote
                 }
             }
             
@@ -39,6 +46,9 @@ struct DebugView: View {
                     }
                 }
             case .booking:
+                Text("Not yet")
+            
+            case .remote:
                 Text("Not yet")
             }
             
@@ -72,13 +82,50 @@ struct DebugView: View {
         }
     }
     
-    func loadTables() -> [TableModel]{
+    func resetBookings() {
+        UserDefaults.standard.removeObject(forKey: "bookings");
+    }
+    
+    // All the tables
+    func loadTables() -> [TableModel] {
         guard let data = UserDefaults.standard.data(forKey: "tables") else {
             return [];
         }
         do {
             return try JSONDecoder().decode(
                 [TableModel].self,
+                from: data
+            )
+        } catch {
+            print(error)
+            return []
+        }
+    }
+    
+    // Personal bookings
+    func loadBookings() -> [BookSessionModel] {
+        guard let data = UserDefaults.standard.data(forKey: "bookings") else {
+            return [];
+        }
+        do {
+            return try JSONDecoder().decode(
+                [BookSessionModel].self,
+                from: data
+            )
+        } catch {
+            print(error)
+            return []
+        }
+    }
+    
+    // All Bookings of restaurant
+    func loadRemote() -> [BookSessionModel] {
+        guard let data = UserDefaults.standard.data(forKey: "remote") else {
+            return [];
+        }
+        do {
+            return try JSONDecoder().decode(
+                [BookSessionModel].self,
                 from: data
             )
         } catch {

@@ -22,7 +22,7 @@ struct TableModel: Codable, Identifiable {
     var x: Double;
     var y: Double;
     
-    /**
+    /*
         1. min - max ppl seated is determined as 2w - 1 to 2w + 2 (two other edges).
         2. on view screen, rec'ed seatings will be displayed + name, which is 2w
         3. the table width will be determined by the w factor, can be determined later as we draw it out

@@ -62,9 +62,10 @@ class FloorController {
         }
     }
     
-    // Check bookings to see if the available tables are occupied
     func FetchAvailableTables(date: Date, people: Int) {
+        // 1. Look for eligible tables: under protocol
         
+        // 2. Fetch availability of eligible tables
     }
     
     func SelectTable(tableNo: Int) {
