@@ -25,12 +25,12 @@ struct BookSessionModel: Codable, Identifiable {
     let id = UUID();
     
     // Table details
-    var tableID: UUID;
-    var resvTime: Date;
-    var numPeople: Int;
-    var bookingName: String
+    var tableID: UUID?;
+    var resvTime: Date?;
+    var numPeople: Int?;
+    var bookingName: String?;
     
-    // Ordering of each dish
-    var orderDetails: [DishDetails] = [];
-    var status: BookStatus = BookStatus.Booked;
+    // Ordering of each dish: currently not supported
+//    var orderDetails: [DishDetails] = [];
+//    var status: BookStatus = BookStatus.Booked;
 }

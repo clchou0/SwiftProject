@@ -15,10 +15,11 @@ struct TablesChildView: View {
             Rectangle()
                 .fill(Color.gray.opacity(0.3))
             
+            // Rules of how the table looks like
             ForEach(control.tables) { table in
                 Rectangle()
-                    .fill(control.color(id: table.number))
-                    .frame(width: 55, height: CGFloat((35 * table.width)))
+                    .fill(control.color(tableNo: table.number))
+                    .frame(width: 60, height: CGFloat((40 * table.width)))
                     .overlay(
                         VStack {
                             Text("\(table.number)")
@@ -27,15 +28,18 @@ struct TablesChildView: View {
                                 .font(.system(size: 10, design: .serif))
                         }
                     )
-                    .position(table.position)
+                    .position(CGPoint(x: table.x, y: table.y))
                     .onTapGesture {
-                        control.selectedTable = table.number
+                        control.SelectTable(tableNo: table.number)
                     }
             }
         }.frame(width: 300, height: 400)
+        .onAppear {
+            control.loadTables()
+        }
     }
 }
 
 #Preview {
-    TablesChildView(control: FloorController(sessionID: nil));
+    TablesChildView(control: FloorController());
 }

@@ -1,0 +1,93 @@
+//
+//  DebugView.swift
+//  Project
+//
+//  Created by CLChou on 2026/5/9.
+//
+
+import SwiftUI
+
+enum Display {
+    case table;
+    case booking;
+}
+
+struct DebugView: View {
+    @State var tables: [TableModel] = []
+    @State var display: Display = .table;
+    var body: some View {
+        
+        VStack {
+            HStack {
+                Button("TABLE") {
+                    display = .table;
+                    tables = loadTables();
+                }
+                Button("BOOKING") {
+                    display = .booking
+                }
+            }
+            
+            Spacer()
+            
+            switch(display) {
+            case .table:
+                List(self.tables) { table in
+                    VStack (alignment: .leading) {
+                        Text("Table \(table.number)\t\tWidth: \(table.width)")
+                        Text("Position: \(table.x, specifier: "%.0f"), \(table.y, specifier: "%.0f")")
+                    }
+                }
+            case .booking:
+                Text("Not yet")
+            }
+            
+            Button("Reset Tables") {
+                resetTables();
+            }
+        }
+        .onAppear {
+            self.tables = loadTables();
+        }
+    }
+    
+    func resetTables() {
+        UserDefaults.standard.removeObject(forKey: "tables");
+        
+        let tbs = [
+            TableModel(id: UUID(), number: 1, width: 1, x: 60, y: 40),
+            TableModel(id: UUID(), number: 2, width: 4, x: 60, y: 160),
+            TableModel(id: UUID(), number: 3, width: 3, x: 60, y: 320),
+            TableModel(id: UUID(), number: 4, width: 2, x: 150, y: 50),
+            TableModel(id: UUID(), number: 5, width: 2, x: 150, y: 145),
+            TableModel(id: UUID(), number: 6, width: 2, x: 150, y: 240),
+            TableModel(id: UUID(), number: 7, width: 5, x: 240, y: 120),
+            TableModel(id: UUID(), number: 8, width: 3, x: 240, y: 310)
+        ];
+        do {
+            let data = try JSONEncoder().encode(tbs)
+            UserDefaults.standard.set(data, forKey: "tables")
+        } catch {
+            print(error)
+        }
+    }
+    
+    func loadTables() -> [TableModel]{
+        guard let data = UserDefaults.standard.data(forKey: "tables") else {
+            return [];
+        }
+        do {
+            return try JSONDecoder().decode(
+                [TableModel].self,
+                from: data
+            )
+        } catch {
+            print(error)
+            return []
+        }
+    }
+}
+
+#Preview {
+    DebugView()
+}

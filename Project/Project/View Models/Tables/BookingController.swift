@@ -12,25 +12,22 @@ import Foundation
 
 class BookingController {
     
-    init() {
+    init(sessionID: UUID?) {
         // Fetch details if provided
+        currentSession = BookSessionModel();
     }
     
     // When first joined no uuid
     var sessionID: UUID?;
-    var routes: Set<Route> = [];
-    var currentSession: BookSessionModel?;
+    var currentSession: BookSessionModel;
     // Helps visualize colors in booking map
-    // var tableStatuses: [UUID: TableStatus] = [:];
     
-    // When having tapped a valid session, load all details of it within the current scope
-    func loadSession(sessionID: UUID?) {
+    // Saves the current booking
+    func saveSession() {
+        if (sessionID == nil) {
+            
+        }
         
+        // Modify / push to both remote and local
     }
-    
-    // Goes thru all bookings to see if overlapped
-    func fetchTableStatus() {
-        
-    }
-    
 }

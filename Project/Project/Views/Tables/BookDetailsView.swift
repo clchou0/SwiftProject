@@ -25,7 +25,7 @@ func DateComp (date: Date, component: Calendar.Component) -> Int {
 }
 
 func SkipValid() -> Date {
-    var hour = Calendar.current.component(.hour, from: Date.now);
+    let hour = Calendar.current.component(.hour, from: Date.now);
     var minute = Calendar.current.component(.minute, from: Date.now);
     
     // After latest resv tonight
@@ -47,7 +47,7 @@ func SkipValid() -> Date {
 
 struct BookDetailsView: View {
     let serifFont: Font = .system(size: 20, design: .serif).bold();
-    let control = BookingController();
+    let control = BookingController(sessionID: nil);
     
     @State var dateSelect: Bool = true;
     @State var numPeople = 1;
@@ -127,14 +127,12 @@ struct BookDetailsView: View {
                         date = SkipValid();
                     }
                 }
-            }
-            else {
+            } else {
                 if Calendar.current.isDateInToday(date) {
                     Text("Today").font(serifFont).foregroundStyle(.blue);
                 } else if Calendar.current.isDateInTomorrow(date) {
                     Text("Tomorrow").font(serifFont).foregroundStyle(.blue);
-                }
-                else {
+                } else {
                     Text(date.formatted(.dateTime.weekday(.wide).day().month(.wide))).font(serifFont).foregroundStyle(.blue);
                 }
             }
@@ -185,6 +183,8 @@ struct BookDetailsView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
             }.buttonStyle(PrimaryButtonStyle())
+            
+            Text("Bookings have to be made at least 1 hour in advance")
             
         }.padding(15)
     }
