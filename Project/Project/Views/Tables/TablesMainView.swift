@@ -13,7 +13,7 @@ struct TablesMainView: View {
     let serifFont: Font = .system(size: 20, design: .serif).bold();
     var body: some View {
         VStack {
-            Text("Booking for 16 May 8:00PM")
+            Text("Booking for \(date.formatted())")
                 .font(.system(.title, design: .serif).bold())
             
             GeometryReader { geo in
