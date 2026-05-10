@@ -47,23 +47,34 @@ func EarliestBooking() -> Date {
 
 struct BookDetailsView: View {
     @Environment(BookingController.self) var control;
+    let sessionID: UUID?;
+    init(session: UUID?) {
+        sessionID = session;
+    }
+    
     let serifFont: Font = .system(size: 20, design: .serif).bold();
     @State var dateSelect: Bool = true;
     @State var proceed: Bool = false;
     
-    @State var date: Date  = Date.tomorrow.setTime(hour: 11, minute: 0);
+    //@State var date: Date  = Date.tomorrow.setTime(hour: 11, minute: 0);
+    var date: Binding<Date> {
+        Binding(
+            get: { control.currentSession.resvTime },
+            set: { control.currentSession.resvTime = $0 }
+        )
+    }
     
     // HH:MM variable modifications
     var hourBinding: Binding<Int> {
         Binding(
-            get: { Calendar.current.component(.hour, from: date) },
+            get: { Calendar.current.component(.hour, from: date.wrappedValue) },
             set: { updateDate(hour: $0) }
         )
     }
     
     var minuteBinding: Binding<Int> {
         Binding(
-            get: { Calendar.current.component(.minute, from: date) },
+            get: { Calendar.current.component(.minute, from: date.wrappedValue) },
             set: { updateDate(minute: $0) }
         )
     }
@@ -99,7 +110,7 @@ struct BookDetailsView: View {
             }.padding(15)
         }
         .onAppear {
-            date = control.currentSession.resvTime;
+            control.loadSession(sessionID: sessionID);
         }
     }
     
@@ -121,16 +132,16 @@ struct BookDetailsView: View {
     var DateSelection: some View {
         DatePicker(
             "Start Date",
-            selection: $date,
+            selection: date,
             in: today...upLimitDate,
             displayedComponents: [.date]
         )
         .datePickerStyle(.graphical)
         .tint(.blue).bold()
-        .onChange(of: date) { _, newValue in
+        .onChange(of: date.wrappedValue) { _, newValue in
             // Snaps back to earliest possible booking
-            if (date < EarliestBooking()) {
-                date = EarliestBooking();
+            if (date.wrappedValue < EarliestBooking()) {
+                date.wrappedValue = EarliestBooking();
             }
         }
    
@@ -139,12 +150,17 @@ struct BookDetailsView: View {
     var DateVisualizer: some View {
         // Date + Time
         
-        if Calendar.current.isDateInToday(date) {
-            Text("Today" + hmStr()).font(serifFont).foregroundStyle(.blue);
-        } else if Calendar.current.isDateInTomorrow(date) {
-            Text("Tomorrow" + hmStr()).font(serifFont).foregroundStyle(.blue);
+        if Calendar.current.isDateInToday(date.wrappedValue) {
+            Text("Today").font(serifFont).foregroundStyle(.blue);
+        } else if Calendar.current.isDateInTomorrow(date.wrappedValue) {
+            Text("Tomorrow").font(serifFont).foregroundStyle(.blue);
         } else {
-            Text(date.formatted(.dateTime.weekday(.wide).day().month(.wide)) + hmStr()).font(serifFont).foregroundStyle(.blue);
+            Text(date.wrappedValue.formatted(
+                .dateTime
+                .weekday(.wide)
+                .day()
+                .month(.wide)
+            )).font(serifFont).foregroundStyle(.blue);
         }
     }
     
@@ -199,28 +215,24 @@ struct BookDetailsView: View {
         }.buttonStyle(PrimaryButtonStyle())
     }
     
-    func hmStr() -> String {
-        return " " + date.formatted(date: .omitted, time: .shortened)
-    }
-    
     func updateDate(hour: Int? = nil, minute: Int? = nil) {
         let calendar = Calendar.current
 
-        let currentHour = calendar.component(.hour, from: date)
-        let currentMinute = calendar.component(.minute, from: date)
+        let currentHour = calendar.component(.hour, from: date.wrappedValue)
+        let currentMinute = calendar.component(.minute, from: date.wrappedValue)
 
         // Sets h or m based on given param
-        date = calendar.date(
+        date.wrappedValue = calendar.date(
             bySettingHour: hour ?? currentHour,
             minute: minute ?? currentMinute,
             second: 0,
-            of: date
-        ) ?? date
+            of: date.wrappedValue
+        ) ?? date.wrappedValue
     }
 }
 
 #Preview {
-    BookDetailsView()
-        .environment(BookingController(sessionID: nil))
+    BookDetailsView(session: nil)
+        .environment(BookingController())
         
 }

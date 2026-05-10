@@ -10,16 +10,19 @@ import SwiftUI
 struct TablesChildView: View {
     @State private var control = FloorController();
     @State private var created: Bool = false;
-    init() {
-        control.loadTables();
-        created = true
+    @Binding var selectedTable: Int?;
+    
+    init(tableIndex: Binding<Int?>, reservedTime: Date, numPeople: Int) {
+        self._selectedTable = tableIndex;
+        control.loadTables(); // <- this will actually error too
+        created = true;
+        control.FetchAvailableTables(date: reservedTime, people: numPeople);
     }
     
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(Color.gray.opacity(0.3))
-            Text(String(self.created));
             // Rules of how the table looks like
             ForEach(control.tables) { table in
                 Rectangle()
@@ -35,17 +38,19 @@ struct TablesChildView: View {
                     )
                     .position(CGPoint(x: table.x, y: table.y))
                     .onTapGesture {
-                        control.SelectTable(tableNo: table.number)
+                        if (control.SelectTable(tableNo: table.number)) {
+                            selectedTable = table.number;
+                        }
                     }
             }
         }.frame(width: 300, height: 400)
         .onAppear {
             control.loadTables();
-            created = true
+            created = true;
         }
-}
+    }
 }
 
 #Preview {
-    TablesChildView();
+    TablesChildView(tableIndex: .constant(nil), reservedTime: Date(), numPeople: 1)
 }

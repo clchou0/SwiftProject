@@ -15,12 +15,7 @@ class FloorController {
     
     var tables: [TableModel] =  [];
     
-    var booking: [Int: TableStatus] = [
-        1: .short("6:30"),
-        2: .reserved,
-        6: .available,
-        5: .short("6:45")
-    ];
+    var booking: [Int: TableStatus] = [:];
     var selectedTable: Int?;
     
     init() {
@@ -64,11 +59,15 @@ class FloorController {
     
     func FetchAvailableTables(date: Date, people: Int) {
         // 1. Look for eligible tables: under protocol
-        
+        for table in self.tables {
+            if table.width == (people + 1) / 2 {
+                booking[table.number] = .available;
+            }
+        }
         // 2. Fetch availability of eligible tables
     }
     
-    func SelectTable(tableNo: Int) {
+    func SelectTable(tableNo: Int) -> Bool {
         if let status = booking[tableNo] {
             switch (status) {
                 case .short, .available:
@@ -78,12 +77,12 @@ class FloorController {
                         self.selectedTable = tableNo;
                     }
                 case .reserved:
-                    return
+                    return false;
             }
         } else {
-            // Not a table that i care
-            return
+            return false;
         }
+        return true;
     }
     
     /**

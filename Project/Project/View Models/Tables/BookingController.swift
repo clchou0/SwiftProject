@@ -11,18 +11,19 @@ import Foundation
 
 @Observable
 class BookingController {
-    
-    init(sessionID: UUID?) {
-        // SessionID unboxing
+    init() {
         
-        // Default session
+    }
+    // When first joined no uuid
+    var sessionID: UUID? = nil;
+    var currentSession: BookSessionModel = BookSessionModel();
+    // Helps visualize colors in booking map
+    func loadSession(sessionID: UUID?) {
+        
+        // Create new default version if not asked to load
         currentSession = BookSessionModel();
     }
     
-    // When first joined no uuid
-    var sessionID: UUID?;
-    var currentSession: BookSessionModel;
-    // Helps visualize colors in booking map
     
     // Saves the current booking
     func saveSession() {
