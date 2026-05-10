@@ -27,7 +27,6 @@ struct TablesMainView: View {
                     Rectangle()
                         .fill(Color.gray.opacity(0))
                     TablesChildView(control: FloorController(sessionID: nil)).scaleEffect(computedScale)
-                    // ChildView()
                 }
             }
             Button {
