@@ -135,6 +135,8 @@ struct HomePageView: View {
 
     
        // Footer
+       // Informs the user of when the
+    // restaurant is open and closed
        private var footerInfo: some View {
            VStack(spacing: 8) {
                Divider().opacity(0.08)
