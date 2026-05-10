@@ -28,7 +28,7 @@ class BookingController {
         
     }
     
-    // Goes thru all bookings to see if overlapped
+    // Goes through all bookings to see if overlapped
     func fetchTableStatus() {
         
     }
