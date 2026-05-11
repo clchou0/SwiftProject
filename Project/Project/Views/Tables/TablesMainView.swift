@@ -10,6 +10,7 @@ import SwiftUI
 struct TablesMainView: View {
     @Environment(BookingController.self) var controller;
     @State private var computedScale = 1.0;
+    @State private var showPopup: Bool = false;
     
     var tableIndexBinding: Binding<Int?> {
         Binding(
@@ -41,11 +42,19 @@ struct TablesMainView: View {
             Text("Each reservation will be for 2 hours");
             
             Button {
-                print("Hello");
-                controller.saveSession();
+                if controller.currentSession.tableNo == nil {
+                    showPopup = true;
+                } else {
+                    controller.saveSession();
+                }
             } label: {
                 Text("Confirm Booking").font(serifFont).frame(maxWidth: .infinity).padding()
             }.buttonStyle(PrimaryButtonStyle())
+            .alert("You have to select a table", isPresented: $showPopup) {
+                Button("OK", role: .cancel) {
+                    showPopup = false;
+                }
+            }
             
         }.padding(15)
         .onAppear {

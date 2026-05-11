@@ -112,6 +112,19 @@ struct DebugView: View {
         
     func resetRemote() {
         UserDefaults.standard.removeObject(forKey: "remote");
+        // 5/16 5pm
+        
+        let remote: [BookSessionModel] = [
+            BookSessionModel(table: 4, Time: makeDate(hour: 17, minute: 0), People: 3, Name: "Matthew"),
+            BookSessionModel(table: 5, Time: makeDate(hour: 18, minute: 0), People: 4, Name: "Jack"),
+            BookSessionModel(table: 6, Time: makeDate(hour: 19, minute: 0), People: 4, Name: "Sarah")
+        ]
+        do {
+            let data = try JSONEncoder().encode(remote)
+            UserDefaults.standard.set(data, forKey: "remote")
+        } catch {
+            print(error)
+        }
     }
     
     // All the tables
@@ -160,6 +173,18 @@ struct DebugView: View {
             print(error)
             return []
         }
+    }
+    
+    func makeDate(hour: Int, minute: Int = 0) -> Date {
+        Calendar.current.date(
+            from: DateComponents(
+                year: 2026,
+                month: 5,
+                day: 16,
+                hour: hour,
+                minute: minute
+            )
+        )!
     }
     
 }

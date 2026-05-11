@@ -58,13 +58,52 @@ class FloorController {
     }
     
     func FetchAvailableTables(date: Date, people: Int) {
-        // 1. Look for eligible tables: under protocol
+        // Pushing eligible tables, ignoring non ones
         for table in self.tables {
             if table.width == (people + 1) / 2 {
                 booking[table.number] = .available;
             }
         }
-        // 2. Fetch availability of eligible tables
+        
+        let remote = loadRemote();
+        
+        let earliestPrev: Date = Calendar.current.date(byAdding: .hour, value: -2, to: date)!;
+        let earliestNext: Date = Calendar.current.date(byAdding: .hour, value: 1, to: date)!;
+        let latestNext: Date = Calendar.current.date(byAdding: .hour, value: 2, to: date)!;
+        
+        for book in remote {
+            // One of the valid tables
+            if let tableNo = book.tableNo, booking[tableNo] != nil {
+                if (earliestPrev <= book.resvTime  && book.resvTime < earliestNext) {
+                    booking[tableNo] = .reserved;
+                }
+                else if (earliestNext <= book.resvTime && book.resvTime < latestNext) {
+                    let mins: Int = Calendar.current.dateComponents(
+                        [.minute],
+                        from: book.resvTime,
+                        to: latestNext
+                    ).minute ?? 0;
+                    
+                    booking[tableNo] = .short(mins)
+                }
+            }
+        }
+        
+    }
+    
+    func loadRemote() -> [BookSessionModel] {
+        guard let data = UserDefaults.standard.data(forKey: "remote") else {
+            return [];
+        }
+        do {
+            return try JSONDecoder().decode(
+                [BookSessionModel].self,
+                from: data
+            )
+        } catch {
+            print(error)
+            return []
+        }
     }
     
     func SelectTable(tableNo: Int) -> Bool {

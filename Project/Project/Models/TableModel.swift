@@ -10,7 +10,7 @@ import Foundation
 // Status representation of a table
 enum TableStatus: Equatable {
     case reserved
-    case short(String)  // Maybe one reserved for 2 hrs later (less than window)
+    case short(Int)  // Maybe one reserved for 2 hrs later (less than window)
     case available
 }
 

@@ -29,12 +29,22 @@ struct BookSessionModel: Codable, Identifiable {
     var numPeople: Int;
     var bookingName: String;
     
+    // Default constructor
     init() {
         id = UUID();
         tableNo = nil;
         resvTime = Date.tomorrow.setTime(hour: 11, minute: 0);
         numPeople = 1;
         bookingName = "";
+    }
+    
+    // Assist in pushing into db
+    init(table: Int, Time: Date, People: Int, Name: String) {
+        id = UUID();
+        tableNo = table;
+        resvTime = Time;
+        numPeople = People;
+        bookingName = Name;
     }
     
     // Ordering of each dish: currently not supported
