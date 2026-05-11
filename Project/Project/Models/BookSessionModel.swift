@@ -37,7 +37,7 @@ struct BookSessionModel: Codable, Identifiable {
         bookingName = ""
     }
     
-    // Assist in pushing into db
+    // Assists in pushing into db
     init(table: Int, Time: Date, People: Int, Name: String) {
         id = UUID()
         tableNo = table
