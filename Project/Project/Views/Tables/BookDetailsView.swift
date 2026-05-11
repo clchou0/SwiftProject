@@ -56,7 +56,6 @@ struct BookDetailsView: View {
     @State var dateSelect: Bool = true;
     @State var proceed: Bool = false;
     
-    //@State var date: Date  = Date.tomorrow.setTime(hour: 11, minute: 0);
     var date: Binding<Date> {
         Binding(
             get: { control.currentSession.resvTime },
