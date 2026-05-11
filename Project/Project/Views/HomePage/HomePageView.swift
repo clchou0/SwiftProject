@@ -34,7 +34,7 @@ struct HomePageView: View {
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $HomeViewModel.isBookingPresented) {
-                BookDetailsView()
+                PlaceholderSheet(title: "Bookings")
             }
             .sheet(isPresented: $HomeViewModel.isOrderPresented) {
                 PlaceholderSheet(title: "Order Now")

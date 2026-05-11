@@ -8,17 +8,26 @@
 import SwiftUI
 
 struct TablesChildView: View {
-    var control: FloorController;
+    @State private var control = FloorController();
+    @State private var created: Bool = false;
+    @Binding var selectedTable: Int?;
+    
+    init(tableIndex: Binding<Int?>, reservedTime: Date, numPeople: Int) {
+        self._selectedTable = tableIndex;
+        control.loadTables(); // <- this will actually error too
+        created = true;
+        control.FetchAvailableTables(date: reservedTime, people: numPeople);
+    }
     
     var body: some View {
         ZStack {
             Rectangle()
                 .fill(Color.gray.opacity(0.3))
-            
+            // Rules of how the table looks like
             ForEach(control.tables) { table in
                 Rectangle()
-                    .fill(control.color(id: table.number))
-                    .frame(width: 55, height: CGFloat((35 * table.width)))
+                    .fill(control.color(tableNo: table.number))
+                    .frame(width: 60, height: CGFloat((40 * table.width)))
                     .overlay(
                         VStack {
                             Text("\(table.number)")
@@ -27,15 +36,21 @@ struct TablesChildView: View {
                                 .font(.system(size: 10, design: .serif))
                         }
                     )
-                    .position(table.position)
+                    .position(CGPoint(x: table.x, y: table.y))
                     .onTapGesture {
-                        control.selectedTable = table.number
+                        if (control.SelectTable(tableNo: table.number)) {
+                            selectedTable = table.number;
+                        }
                     }
             }
         }.frame(width: 300, height: 400)
+        .onAppear {
+            control.loadTables();
+            created = true;
+        }
     }
 }
 
 #Preview {
-    TablesChildView(control: FloorController(sessionID: nil));
+    TablesChildView(tableIndex: .constant(nil), reservedTime: Date(), numPeople: 1)
 }

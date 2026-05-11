@@ -9,28 +9,46 @@ import Foundation
 
 // All views that can be accessed
 
-
+@Observable
 class BookingController {
-    
     init() {
-        // Fetch details if provided
+        
     }
-    
     // When first joined no uuid
-    var sessionID: UUID?;
-    var routes: Set<Route> = [];
-    var currentSession: BookSessionModel?;
+    var sessionID: UUID? = nil;
+    var currentSession: BookSessionModel = BookSessionModel();
     // Helps visualize colors in booking map
-    // var tableStatuses: [UUID: TableStatus] = [:];
-    
-    // When having tapped a valid session, load all details of it within the current scope
     func loadSession(sessionID: UUID?) {
         
+        // Create new default version if not asked to load
+        currentSession = BookSessionModel();
     }
     
-    // Goes through all bookings to see if overlapped
-    func fetchTableStatus() {
+    // Saves the current booking
+    func saveSession() {
+        var bookings = UserDefaults.standard.array(forKey: "bookings") as? [BookSessionModel] ?? [];
+        var remote = UserDefaults.standard.array(forKey: "remote") as? [BookSessionModel] ?? [];
+        if (sessionID == nil) {
+            bookings.append(currentSession);
+            remote.append(currentSession);
+        } else {
+            // case editing
+        }
+    
         
+        // Saves new chain to both remote and personal bookings
+        do {
+            let data = try JSONEncoder().encode(bookings)
+            UserDefaults.standard.set(data, forKey: "bookings")
+        } catch {
+            print(error)
+        }
+        do {
+            let data = try JSONEncoder().encode(remote)
+            UserDefaults.standard.set(data, forKey: "remote")
+        } catch {
+            print(error)
+        }
     }
     
 }

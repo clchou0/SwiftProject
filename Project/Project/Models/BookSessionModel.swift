@@ -21,15 +21,32 @@ struct DishDetails: Codable, Identifiable {
 
 // Contains details of a single booking
 struct BookSessionModel: Codable, Identifiable {
-    let id = UUID();
-    
+    let id: UUID;
     // Table details
-    var tableID: UUID;
+    var tableNo: Int?;
     var resvTime: Date;
     var numPeople: Int;
-    var bookingName: String
+    var bookingName: String;
     
-    // Ordering of each dish
-    var orderDetails: [DishDetails] = [];
-    var status: BookStatus = BookStatus.Booked;
+    // Default constructor
+    init() {
+        id = UUID();
+        tableNo = nil;
+        resvTime = Date.tomorrow.setTime(hour: 11, minute: 0);
+        numPeople = 1;
+        bookingName = "";
+    }
+    
+    // Assist in pushing into db
+    init(table: Int, Time: Date, People: Int, Name: String) {
+        id = UUID();
+        tableNo = table;
+        resvTime = Time;
+        numPeople = People;
+        bookingName = Name;
+    }
+    
+    // Ordering of each dish: currently not supported
+//    var orderDetails: [DishDetails] = [];
+//    var status: BookStatus = BookStatus.Booked;
 }

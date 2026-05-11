@@ -8,42 +8,25 @@
 import Foundation
 import SwiftUI
 
-// Controls all table related things
+// Controls all table availability related things
 @Observable
 class FloorController {
     // null: should not be in db
-    let sessionID: UUID?;
     
+    var tables: [TableModel] =  [];
     
-    var tables: [TableModel] =  [
-        TableModel(number: 1, width: 1, position: CGPoint(x: 60, y: 40)),
-        TableModel(number: 2, width: 4, position: CGPoint(x: 60, y: 160)),
-        TableModel(number: 3, width: 3, position: CGPoint(x: 60, y: 320)),
-        TableModel(number: 4, width: 2, position: CGPoint(x: 150, y: 70)),
-        TableModel(number: 5, width: 2, position: CGPoint(x: 150, y: 150)),
-        TableModel(number: 6, width: 2, position: CGPoint(x: 150, y: 240)),
-        TableModel(number: 7, width: 5, position: CGPoint(x: 240, y: 110)),
-        TableModel(number: 8, width: 3, position: CGPoint(x: 240, y: 290))
-    ];
-    var booking: [Int: TableStatus] = [
-        5: .short("6:45"),
-        2: .reserved,
-        1: .short("6:30")
-    ];
+    var booking: [Int: TableStatus] = [:];
     var selectedTable: Int?;
     
-    init(sessionID: UUID?) {
-        self.sessionID = sessionID;
+    init() {
         
     }
     
-    // TODO: Collects tables and statuses from db
-    
     // Visualizes availability
-    func color (id: Int) -> Color {
-        if (selectedTable == id) { return .orange; }
+    func color (tableNo: Int) -> Color {
+        if (selectedTable == tableNo) { return .orange; }
         
-        if let status = booking[id] {
+        if let status = booking[tableNo] {
             switch (status) {
                 case .short:
                     return .yellow
@@ -53,18 +36,97 @@ class FloorController {
                     return .green
             }
         } else {
+            // Not a table that i care
             return .gray
         }
     }
     
-    func FetchTableDetails(date: Date, people: Int) {
-        // rules: ppl >= 2w(max)- 3
-        // Search from db
+    // Get table attributes from db
+    func loadTables() {
+        guard let data = UserDefaults.standard.data(forKey: "tables") else {
+            return;
+        }
+        do {
+            self.tables = try JSONDecoder().decode(
+                [TableModel].self,
+                from: data
+            )
+        } catch {
+            print(error)
+            return;
+        }
     }
+    
+    func FetchAvailableTables(date: Date, people: Int) {
+        // Pushing eligible tables, ignoring non ones
+        for table in self.tables {
+            if table.width == (people + 1) / 2 {
+                booking[table.number] = .available;
+            }
+        }
+        
+        let remote = loadRemote();
+        
+        let earliestPrev: Date = Calendar.current.date(byAdding: .hour, value: -2, to: date)!;
+        let earliestNext: Date = Calendar.current.date(byAdding: .hour, value: 1, to: date)!;
+        let latestNext: Date = Calendar.current.date(byAdding: .hour, value: 2, to: date)!;
+        
+        for book in remote {
+            // One of the valid tables
+            if let tableNo = book.tableNo, booking[tableNo] != nil {
+                if (earliestPrev <= book.resvTime  && book.resvTime < earliestNext) {
+                    booking[tableNo] = .reserved;
+                }
+                else if (earliestNext <= book.resvTime && book.resvTime < latestNext) {
+                    let mins: Int = Calendar.current.dateComponents(
+                        [.minute],
+                        from: book.resvTime,
+                        to: latestNext
+                    ).minute ?? 0;
+                    
+                    booking[tableNo] = .short(mins)
+                }
+            }
+        }
+        
+    }
+    
+    func loadRemote() -> [BookSessionModel] {
+        guard let data = UserDefaults.standard.data(forKey: "remote") else {
+            return [];
+        }
+        do {
+            return try JSONDecoder().decode(
+                [BookSessionModel].self,
+                from: data
+            )
+        } catch {
+            print(error)
+            return []
+        }
+    }
+    
+    func SelectTable(tableNo: Int) -> Bool {
+        if let status = booking[tableNo] {
+            switch (status) {
+                case .short, .available:
+                    if (self.selectedTable == tableNo) {
+                        self.selectedTable = nil;
+                    } else {
+                        self.selectedTable = tableNo;
+                    }
+                case .reserved:
+                    return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+    
     /**
         * Injects session: time and # ppl
         * Returns table statuses for all (only occupied)
         * Available to select table that is either green or yellow
      */
-    
 }
