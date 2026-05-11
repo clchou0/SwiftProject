@@ -52,7 +52,7 @@ struct HomePageView: View {
                 Text(greeting)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("El Restaurant")
+                Text("El Pavilion")
                     .font(.largeTitle.weight(.bold))
                     .foregroundColor(.primary)
             }
@@ -148,7 +148,7 @@ struct HomePageView: View {
        }
    }
 
-// Greetings var based on time
+// Greetings vary based on time
 private var greeting: String {
     let hour = Calendar.current.component(.hour, from: Date())
     switch hour {
