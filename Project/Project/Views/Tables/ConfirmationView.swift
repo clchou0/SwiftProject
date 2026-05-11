@@ -8,9 +8,13 @@
 import SwiftUI
 
 struct ConfirmationView: View {
-    
+    @Environment(BookingController.self) var controller;
+    @Environment(\.dismiss) private var dismissView
+
     var body: some View {
-        EmptyView()
+        VStack(spacing: 20) {
+            
+        }
     }
 }
 
