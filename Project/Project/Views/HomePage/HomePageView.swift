@@ -52,7 +52,7 @@ struct HomePageView: View {
                 Text(greeting)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text("El Restaurant")
+                Text("El Pavilion")
                     .font(.largeTitle.weight(.bold))
                     .foregroundColor(.primary)
             }
