@@ -17,7 +17,6 @@ struct DishDetails: Codable, Identifiable {
     let id = UUID();
     let dishID: UUID;
     var quantity: Int;
-    // var notes: String;
 }
 
 // Contains details of a single booking
