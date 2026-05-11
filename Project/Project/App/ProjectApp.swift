@@ -10,11 +10,14 @@ import SwiftUI
 @main
 struct ProjectApp: App {
     @StateObject private var HViewModel = HomeViewModel()
+    @State private var BookingViewModel = BookingController()
     
     var body: some Scene {
         WindowGroup {
             HomePageView()
                 .environmentObject(HViewModel)
+                .environment(BookingViewModel)
+                
         }
     }
 }
