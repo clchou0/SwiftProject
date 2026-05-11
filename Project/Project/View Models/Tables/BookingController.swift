@@ -24,7 +24,6 @@ class BookingController {
         currentSession = BookSessionModel();
     }
     
-    
     // Saves the current booking
     func saveSession() {
         var bookings = UserDefaults.standard.array(forKey: "bookings") as? [BookSessionModel] ?? [];
@@ -35,7 +34,9 @@ class BookingController {
         } else {
             // case editing
         }
+    
         
+        // Saves new chain to both remote and personal bookings
         do {
             let data = try JSONEncoder().encode(bookings)
             UserDefaults.standard.set(data, forKey: "bookings")

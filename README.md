@@ -3,7 +3,8 @@
 
 Main Page - Mikhail Zhelnin 14524159
 
-Alik Orgun 24949531
+Alik Orgun 24949531 (Github username: 004-bigal)
 
 Presentation Link: https://docs.google.com/presentation/d/1eOv7L3u20MbcUyN_TnjRg2_BRhF0S0p3C1bKzpjdYac/edit?usp=sharing
+
 Git Repo Link: https://github.com/clchou0/SwiftProject

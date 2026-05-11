@@ -23,40 +23,48 @@ struct TablesMainView: View {
     @State var dateString: String = "";
     var body: some View {
         VStack {
-            Text("Booking for " + dateString).font(serifFont.bold());
+            Text("Booking for " + dateString).font(serifFont.bold())
             
             GeometryReader { geo in
                 // Default restaurant ground
-                let computedScale = min(geo.size.width / 300, geo.size.height / 400);
+                let computedScale = min(geo.size.width / 300, geo.size.height / 400)
                 
                 ZStack {
-                    Rectangle().fill(Color.gray.opacity(0));
+                    Rectangle()
+                        .fill(Color.gray.opacity(0))
+                    
                     TablesChildView(
                         tableIndex: tableIndexBinding,
                         reservedTime: controller.currentSession.resvTime,
-                        numPeople: controller.currentSession.numPeople)
-                    .scaleEffect(computedScale);
+                        numPeople: controller.currentSession.numPeople
+                    )
+                    .scaleEffect(computedScale)
                 }
             }
             
-            Text("Each reservation will be for 2 hours");
+            Text("Each reservation will be for 2 hours")
             
             Button {
                 if controller.currentSession.tableNo == nil {
-                    showPopup = true;
+                    showPopup = true
                 } else {
-                    controller.saveSession();
+                    controller.saveSession()
                 }
             } label: {
-                Text("Confirm Booking").font(serifFont).frame(maxWidth: .infinity).padding()
-            }.buttonStyle(PrimaryButtonStyle())
+                Text("Confirm Booking")
+                    .font(serifFont)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+            }
+            .buttonStyle(PrimaryButtonStyle())
             .alert("You have to select a table", isPresented: $showPopup) {
                 Button("OK", role: .cancel) {
-                    showPopup = false;
+                    showPopup = false
                 }
             }
             
-        }.padding(15)
+        }
+        .padding(15)
         .onAppear {
             self.dateString = controller.currentSession.resvTime
                 .formatted(
