@@ -12,9 +12,11 @@ struct OrderView: View {
         // Scroll Box that has for each...
         NavigationStack {
             ScrollView {
-                
+                VStack {
+                    
+                }
             }
-            .navigationTitle("Restaurant Menu")
+            .navigationTitle("RESTAURANT MENU")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
