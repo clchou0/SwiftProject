@@ -7,17 +7,17 @@
 
 import Foundation
 
-// All views that can be accessed
+// All the views that can be accessed
 
 @Observable
 class BookingController {
     init() {
         
     }
-    // When first joined no uuid
+    // When first joined, there is no UUID
     var sessionID: UUID? = nil;
     var currentSession: BookSessionModel = BookSessionModel();
-    // Helps visualize colors in booking map
+    // Helps to visualise colors in booking map
     func loadSession(sessionID: UUID?) async {
         if let id = sessionID {
             currentSession = await loadBookings().first(where: {$0.id == id})!
@@ -26,38 +26,44 @@ class BookingController {
         }
     }
     
-    // Saves the current booking
+    // Saves the current booking to UserDefaults
     func saveSession() {
         
         let decoder = JSONDecoder()
-        
+
+        // load existing bookings
         var bookings: [BookSessionModel] = []
         var remote: [BookSessionModel] = []
-        
+
+        // load in person bookings
         if let data = UserDefaults.standard.data(forKey: "bookings"),
            let decoded = try? decoder.decode([BookSessionModel].self, from: data) {
             bookings = decoded
         }
-        
+
+        // load remotely made bookings
         if let data = UserDefaults.standard.data(forKey: "remote"),
            let decoded = try? decoder.decode([BookSessionModel].self, from: data) {
             remote = decoded
         }
-        
+
+        // add or update a booking of either type
         if sessionID == nil {
             bookings.append(currentSession)
             remote.append(currentSession)
         } else {
             // editing case
         }
-        
+
+        // saves an in person booking
         do {
             let data = try JSONEncoder().encode(bookings)
             UserDefaults.standard.set(data, forKey: "bookings")
         } catch {
             print(error)
         }
-        
+
+        // saves a remote booking
         do {
             let data = try JSONEncoder().encode(remote)
             UserDefaults.standard.set(data, forKey: "remote")
