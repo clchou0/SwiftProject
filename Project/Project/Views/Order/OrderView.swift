@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OrderView: View {
     var body: some View {
-        // Scroll Box that has for each...
+        // Contains a scroll box that has for each dish
         NavigationStack {
             ScrollView {
                 VStack {
