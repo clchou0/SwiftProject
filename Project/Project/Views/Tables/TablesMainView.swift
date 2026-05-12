@@ -21,59 +21,71 @@ struct TablesMainView: View {
     
     let serifFont: Font = .system(size: 20, design: .serif).bold();
     @State var dateString: String = "";
+    @State private var proceed: Bool = false;
+    
     var body: some View {
-        VStack {
-            Text("Booking for " + dateString).font(serifFont.bold())
-            
-            GeometryReader { geo in
-                // Default restaurant ground
-                let computedScale = min(geo.size.width / 300, geo.size.height / 400)
+        NavigationStack {
+            VStack {
+                Text("Booking for " + dateString).font(serifFont.bold())
                 
-                ZStack {
-                    Rectangle()
-                        .fill(Color.gray.opacity(0))
+                GeometryReader { geo in
+                    // Default restaurant ground
+                    let computedScale = min(geo.size.width / 300, geo.size.height / 400)
                     
-                    TablesChildView(
-                        tableIndex: tableIndexBinding,
-                        reservedTime: controller.currentSession.resvTime,
-                        numPeople: controller.currentSession.numPeople
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0))
+                        
+                        TablesChildView(
+                            selectedTable: tableIndexBinding,
+                            reservedTime: controller.currentSession.resvTime,
+                            numPeople: controller.currentSession.numPeople
+                        )
+                        .scaleEffect(computedScale)
+                    }
+                }
+                
+                Text("Each reservation will be for 2 hours\n")
+                Text("🟧: Selected Table")
+                
+                ProceedButton.navigationDestination(isPresented: $proceed) {
+                    ConfirmationView();
+                }
+                
+            }
+            .padding(15)
+            .onAppear {
+                self.dateString = controller.currentSession.resvTime
+                    .formatted(
+                        .dateTime
+                            .day()
+                            .month(.wide)
+                            .hour()
+                            .minute()
                     )
-                    .scaleEffect(computedScale)
-                }
             }
-            
-            Text("Each reservation will be for 2 hours")
-            
-            Button {
-                if controller.currentSession.tableNo == nil {
-                    showPopup = true
-                } else {
-                    controller.saveSession()
-                }
-            } label: {
-                Text("Confirm Booking")
-                    .font(serifFont)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-            }
-            .buttonStyle(PrimaryButtonStyle())
-            .alert("You have to select a table", isPresented: $showPopup) {
-                Button("OK", role: .cancel) {
-                    showPopup = false
-                }
-            }
-            
         }
-        .padding(15)
-        .onAppear {
-            self.dateString = controller.currentSession.resvTime
-                .formatted(
-                    .dateTime
-                        .day()
-                        .month(.wide)
-                        .hour()
-                        .minute()
-                )
+    }
+    
+    var ProceedButton: some View {
+        Button {
+            if controller.currentSession.tableNo == nil {
+                showPopup = true
+            } else {
+                controller.saveSession();
+                proceed = true;
+            }
+        } label: {
+            Text("Save Booking")
+                .font(serifFont)
+                .frame(maxWidth: .infinity)
+                .padding()
+        }
+        .buttonStyle(PrimaryButtonStyle())
+        .alert("Please select a table", isPresented: $showPopup) {
+            Button("OK", role: .cancel) {
+                showPopup = false
+            }
         }
     }
     

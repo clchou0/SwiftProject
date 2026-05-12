@@ -41,23 +41,7 @@ class FloorController {
         }
     }
     
-    // This function retrieves table attributes from the db
-    func loadTables() {
-        guard let data = UserDefaults.standard.data(forKey: "tables") else {
-            return;
-        }
-        do {
-            self.tables = try JSONDecoder().decode(
-                [TableModel].self,
-                from: data
-            )
-        } catch {
-            print(error)
-            return;
-        }
-    }
-    
-    func FetchAvailableTables(date: Date, people: Int) {
+    func FetchAvailableTables(date: Date, people: Int) async {
         // Pushing eligible tables, ignoring non ones
         for table in self.tables {
             if table.width == (people + 1) / 2 {
@@ -65,7 +49,7 @@ class FloorController {
             }
         }
         
-        let remote = loadRemote();
+        let remote = await loadRemote();
         
         let earliestPrev: Date = Calendar.current.date(byAdding: .hour, value: -2, to: date)!;
         let earliestNext: Date = Calendar.current.date(byAdding: .hour, value: 1, to: date)!;
@@ -91,23 +75,6 @@ class FloorController {
         
     }
     
-    // This function fetches the bookings from the local storage
-    func loadRemote() -> [BookSessionModel] {
-        guard let data = UserDefaults.standard.data(forKey: "remote") else {
-            return [];
-        }
-        do {
-            return try JSONDecoder().decode(
-                [BookSessionModel].self,
-                from: data
-            )
-        } catch {
-            print(error)
-            return []
-        }
-    }
-    
-    // This function handles the user selecting a table on the map
     func SelectTable(tableNo: Int) -> Bool {
         if let status = booking[tableNo] {
             switch (status) {

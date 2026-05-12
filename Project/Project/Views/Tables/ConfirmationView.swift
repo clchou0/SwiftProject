@@ -8,94 +8,115 @@
 import SwiftUI
 
 struct ConfirmationView: View {
-    @Environment(BookingController.self) var controller
-    @Environment(\.dismiss) private var dismissView
-    //view for displaying the confirmation screen
+    @Environment(BookingController.self) private var controller
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var edit: Bool = false;
+    
+    private let serifFont: Font = .system(size: 25, design: .serif).bold()
+    
     var body: some View {
-            VStack(spacing: 25) {
-                // success icon to display on top of device
+        NavigationStack {
+            VStack(spacing: 24) {
+                Spacer()
+                
                 Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 60))
+                    .font(.system(size: 72))
                     .foregroundColor(.green)
-                    .padding(.top, 10)
                 
-                // text to tell user that booking has been confirmed
-                Text("BOOKING HAS BEEN CONFIRMED!")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
+                VStack(spacing: 8) {
+                    Text("Booking Confirmed")
+                        .font(.system(.largeTitle, design: .serif).bold())
+                        .multilineTextAlignment(.center)
+                    
+                    Text("Your reservation has been successfully created.")
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
                 
-                // displays booking details
-                VStack(alignment: .leading, spacing: 25) {
-                    // displays date and time of the booking
-                    HStack {
+                VStack(alignment: .leading, spacing: 18) {
+                    HStack(spacing: 14) {
                         Image(systemName: "calendar")
+                            .frame(width: 24)
                             .foregroundColor(.accentColor)
-                            .frame(width: 25)
-                        Text(controller.currentSession.resvTime.formatted(date: .abbreviated, time: .shortened))
-                            .font(.body)
-                        Spacer()
+                        
+                        Text(
+                            controller.currentSession.resvTime,
+                            format: .dateTime
+                                .day()
+                                .month(.abbreviated)
+                                .hour()
+                                .minute()
+                        )
                     }
                     
-                    // displays the number of people in the booking
-                    HStack {
+                    HStack(spacing: 14) {
                         Image(systemName: "person.2")
+                            .frame(width: 24)
                             .foregroundColor(.accentColor)
-                            .frame(width: 25)
-                        //This if statement deals with the special case of whether the booking contains details for one person or more than one person
-                        if controller.currentSession.numPeople == 1 {
-                            Text("1 person")
-                                .font(.body)
-                        } else {
-                            Text("\(controller.currentSession.numPeople) people")
-                                .font(.body)
-                            //obviously this change had to be done otherwise putting "1 people" or "2 person" would look silly
-                        }
                         
-                        Spacer()
+                        Text("Table for \(controller.currentSession.numPeople)")
+                    }
+                    
+                    if let tableNo = controller.currentSession.tableNo {
+                        HStack(spacing: 14) {
+                            Image(systemName: "square.grid.2x2")
+                                .frame(width: 24)
+                                .foregroundColor(.accentColor)
+                            
+                            Text("Table \(tableNo)")
+                        }
                     }
                     
                     Divider()
                     
-                    // this displays the booking UUID
-                    HStack {
-                        Image(systemName: "qrcode")
-                            .foregroundColor(.accentColor)
-                            .frame(width: 22)
-                        Text("Booking ID: \(controller.currentSession.id.uuidString.prefix(8))")
-                            .font(.caption)
+                    HStack(spacing: 14) {
+                        Image(systemName: "number")
+                            .frame(width: 24)
                             .foregroundColor(.secondary)
                         
-                        Spacer()
+                        Text(controller.currentSession.id.uuidString.prefix(8))
+                            .foregroundColor(.secondary)
                     }
                 }
-                .padding()
+                .font(.body)
+                .padding(22)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color(.systemGray6))
-                .cornerRadius(12)
-                .padding(.horizontal)
+                .clipShape(RoundedRectangle(cornerRadius: 18))
                 
                 Spacer()
                 
-                // the done button
-                Button(action: {
-                    dismissView()
-                }) {
-                    Text("Done")
-                        .font(.headline)
-                        .foregroundColor(.white)
+                Button {
+                    edit = true;
+                } label: {
+                    Text("Edit details")
+                        .font(serifFont)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.accentColor)
-                        .cornerRadius(12)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 20)
+                .buttonStyle(PrimaryButtonStyle())
+                
+                Button {
+                    // UPDATE to home page
+                    dismiss()
+                } label: {
+                    Text("Done")
+                        .font(serifFont)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .buttonStyle(PrimaryButtonStyle())
             }
-            .padding()
+            .padding(20)
+            .navigationDestination(isPresented: $edit) {
+                // UPDATE no argument should be needed
+                BookDetailsView(session: controller.sessionID);
+            }
         }
     }
+}
 
 #Preview {
-        ConfirmationView()
-            .environment(BookingController())
+    ConfirmationView().environment(BookingController())
 }

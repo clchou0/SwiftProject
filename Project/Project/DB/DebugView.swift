@@ -25,15 +25,21 @@ struct DebugView: View {
             HStack {
                 Button("TABLE") {
                     display = .table;
-                    tables = loadTables();
+                    Task {
+                        tables = await loadTables();
+                    }
                 }
                 Button("BOOKING") {
                     display = .booking
-                    bookings = loadBookings();
+                    Task {
+                        bookings = await loadBookings();
+                    }
                 }
                 Button("REMOTE") {
                     display = .remote
-                    remote = loadRemote();
+                    Task {
+                        remote = await loadRemote();
+                    }
                 }
             }
             
@@ -78,9 +84,6 @@ struct DebugView: View {
                 }
             }
         }
-        .onAppear {
-            self.tables = loadTables();
-        }
     }
         
     
@@ -124,54 +127,6 @@ struct DebugView: View {
             UserDefaults.standard.set(data, forKey: "remote")
         } catch {
             print(error)
-        }
-    }
-    
-    // All the tables
-    func loadTables() -> [TableModel] {
-        guard let data = UserDefaults.standard.data(forKey: "tables") else {
-            return [];
-        }
-        do {
-            return try JSONDecoder().decode(
-                [TableModel].self,
-                from: data
-            )
-        } catch {
-            print(error)
-            return []
-        }
-    }
-    
-    // Personal bookings
-    func loadBookings() -> [BookSessionModel] {
-        guard let data = UserDefaults.standard.data(forKey: "bookings") else {
-            return [];
-        }
-        do {
-            return try JSONDecoder().decode(
-                [BookSessionModel].self,
-                from: data
-            )
-        } catch {
-            print(error)
-            return []
-        }
-    }
-    
-    // All Bookings of restaurant
-    func loadRemote() -> [BookSessionModel] {
-        guard let data = UserDefaults.standard.data(forKey: "remote") else {
-            return [];
-        }
-        do {
-            return try JSONDecoder().decode(
-                [BookSessionModel].self,
-                from: data
-            )
-        } catch {
-            print(error)
-            return []
         }
     }
     
