@@ -9,8 +9,16 @@ import SwiftUI
 
 struct OrderView: View {
     var body: some View {
-        // Scroll Box that has for each...
-        EmptyView()
+        // Contains a scroll box that has for each dish in the menu
+        NavigationStack {
+            ScrollView {
+                VStack {
+                    
+                }
+            }
+            .navigationTitle("RESTAURANT MENU")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
