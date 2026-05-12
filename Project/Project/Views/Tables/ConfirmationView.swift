@@ -14,96 +14,92 @@ struct ConfirmationView: View {
     private let serifFont: Font = .system(size: 25, design: .serif).bold()
     
     var body: some View {
-        VStack(spacing: 24) {
-            Spacer()
-            
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 72))
-                .foregroundColor(.green)
-            
-            VStack(spacing: 8) {
-                Text("Booking Confirmed")
-                    .font(.system(.largeTitle, design: .serif).bold())
-                    .multilineTextAlignment(.center)
+        NavigationStack {
+            VStack(spacing: 24) {
+                Spacer()
                 
-                Text("Your reservation has been successfully created.")
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            }
-            
-            VStack(alignment: .leading, spacing: 18) {
-                HStack(spacing: 14) {
-                    Image(systemName: "calendar")
-                        .frame(width: 24)
-                        .foregroundColor(.accentColor)
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 72))
+                    .foregroundColor(.green)
+                
+                VStack(spacing: 8) {
+                    Text("Booking Confirmed")
+                        .font(.system(.largeTitle, design: .serif).bold())
+                        .multilineTextAlignment(.center)
                     
-                    Text(
-                        controller.currentSession.resvTime,
-                        format: .dateTime
-                            .day()
-                            .month(.abbreviated)
-                            .hour()
-                            .minute()
-                    )
+                    Text("Your reservation has been successfully created.")
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
                 }
                 
-                HStack(spacing: 14) {
-                    Image(systemName: "person.2")
-                        .frame(width: 24)
-                        .foregroundColor(.accentColor)
-                    
-                    Text("Table for \(controller.currentSession.numPeople)")
-                }
-                
-                if let tableNo = controller.currentSession.tableNo {
+                VStack(alignment: .leading, spacing: 18) {
                     HStack(spacing: 14) {
-                        Image(systemName: "square.grid.2x2")
+                        Image(systemName: "calendar")
                             .frame(width: 24)
                             .foregroundColor(.accentColor)
                         
-                        Text("Table \(tableNo)")
+                        Text(
+                            controller.currentSession.resvTime,
+                            format: .dateTime
+                                .day()
+                                .month(.abbreviated)
+                                .hour()
+                                .minute()
+                        )
+                    }
+                    
+                    HStack(spacing: 14) {
+                        Image(systemName: "person.2")
+                            .frame(width: 24)
+                            .foregroundColor(.accentColor)
+                        
+                        Text("Table for \(controller.currentSession.numPeople)")
+                    }
+                    
+                    if let tableNo = controller.currentSession.tableNo {
+                        HStack(spacing: 14) {
+                            Image(systemName: "square.grid.2x2")
+                                .frame(width: 24)
+                                .foregroundColor(.accentColor)
+                            
+                            Text("Table \(tableNo)")
+                        }
+                    }
+                    
+                    Divider()
+                    
+                    HStack(spacing: 14) {
+                        Image(systemName: "number")
+                            .frame(width: 24)
+                            .foregroundColor(.secondary)
+                        
+                        Text(controller.currentSession.id.uuidString.prefix(8))
+                            .foregroundColor(.secondary)
                     }
                 }
+                .font(.body)
+                .padding(22)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color(.systemGray6))
+                .clipShape(RoundedRectangle(cornerRadius: 18))
                 
-                Divider()
+                Spacer()
                 
-                HStack(spacing: 14) {
-                    Image(systemName: "number")
-                        .frame(width: 24)
-                        .foregroundColor(.secondary)
-                    
-                    Text(controller.currentSession.id.uuidString.prefix(8))
-                        .foregroundColor(.secondary)
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Done")
+                        .font(serifFont)
+                        .frame(maxWidth: .infinity)
+                        .padding()
                 }
+                .buttonStyle(PrimaryButtonStyle())
             }
-            .font(.body)
-            .padding(22)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(.systemGray6))
-            .clipShape(RoundedRectangle(cornerRadius: 18))
-            
-            Spacer()
-            
-            Button {
-                dismiss()
-            } label: {
-                Text("Done")
-                    .font(serifFont)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-            }
-            .buttonStyle(PrimaryButtonStyle())
+            .padding(20)
         }
-        .padding()
-        .navigationTitle("Confirmation")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-    NavigationStack {
-        ConfirmationView()
-            .environment(BookingController())
-    }
+    ConfirmationView().environment(BookingController())
 }

@@ -26,23 +26,36 @@ class BookingController {
     
     // Saves the current booking
     func saveSession() {
-        var bookings = UserDefaults.standard.array(forKey: "bookings") as? [BookSessionModel] ?? [];
-        var remote = UserDefaults.standard.array(forKey: "remote") as? [BookSessionModel] ?? [];
-        if (sessionID == nil) {
-            bookings.append(currentSession);
-            remote.append(currentSession);
-        } else {
-            // case editing
-        }
-    
         
-        // Saves new chain to both remote and personal bookings
+        let decoder = JSONDecoder()
+        
+        var bookings: [BookSessionModel] = []
+        var remote: [BookSessionModel] = []
+        
+        if let data = UserDefaults.standard.data(forKey: "bookings"),
+           let decoded = try? decoder.decode([BookSessionModel].self, from: data) {
+            bookings = decoded
+        }
+        
+        if let data = UserDefaults.standard.data(forKey: "remote"),
+           let decoded = try? decoder.decode([BookSessionModel].self, from: data) {
+            remote = decoded
+        }
+        
+        if sessionID == nil {
+            bookings.append(currentSession)
+            remote.append(currentSession)
+        } else {
+            // editing case
+        }
+        
         do {
             let data = try JSONEncoder().encode(bookings)
             UserDefaults.standard.set(data, forKey: "bookings")
         } catch {
             print(error)
         }
+        
         do {
             let data = try JSONEncoder().encode(remote)
             UserDefaults.standard.set(data, forKey: "remote")
