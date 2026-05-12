@@ -10,7 +10,13 @@ import SwiftUI
 struct OrderView: View {
     var body: some View {
         // Scroll Box that has for each...
-        EmptyView()
+        NavigationStack {
+            ScrollView {
+                
+            }
+            .navigationTitle("Restaurant Menu")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
