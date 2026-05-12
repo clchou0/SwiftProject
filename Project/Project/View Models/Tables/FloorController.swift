@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 
-// Controls all table availability related things
+// Controls all table availability related functionality
 @Observable
 class FloorController {
-    // null: should not be in db
+    // null: should not be in the db
     
     var tables: [TableModel] =  [];
     
@@ -22,7 +22,7 @@ class FloorController {
         
     }
     
-    // Visualizes availability
+    // This function visualises availability
     func color (tableNo: Int) -> Color {
         if (selectedTable == tableNo) { return .orange; }
         
@@ -41,7 +41,7 @@ class FloorController {
         }
     }
     
-    // Get table attributes from db
+    // This function retrieves table attributes from the db
     func loadTables() {
         guard let data = UserDefaults.standard.data(forKey: "tables") else {
             return;
@@ -91,6 +91,7 @@ class FloorController {
         
     }
     
+    // This function fetches the bookings from the local storage
     func loadRemote() -> [BookSessionModel] {
         guard let data = UserDefaults.standard.data(forKey: "remote") else {
             return [];
@@ -106,6 +107,7 @@ class FloorController {
         }
     }
     
+    // This function handles the user selecting a table on the map
     func SelectTable(tableNo: Int) -> Bool {
         if let status = booking[tableNo] {
             switch (status) {
