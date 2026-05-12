@@ -12,12 +12,12 @@ struct ConfirmationView: View {
     @Environment(\.dismiss) private var dismissView
     //view for displaying the confirmation screen
     var body: some View {
-            VStack(spacing: 20) {
+            VStack(spacing: 25) {
                 // success icon to display on top of device
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 60))
                     .foregroundColor(.green)
-                    .padding(.top, 30)
+                    .padding(.top, 10)
                 
                 // text to tell user that booking has been confirmed
                 Text("BOOKING HAS BEEN CONFIRMED!")
@@ -26,12 +26,12 @@ struct ConfirmationView: View {
                     .multilineTextAlignment(.center)
                 
                 // displays booking details
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 25) {
                     // displays date and time of the booking
                     HStack {
                         Image(systemName: "calendar")
                             .foregroundColor(.accentColor)
-                            .frame(width: 23)
+                            .frame(width: 25)
                         Text(controller.currentSession.resvTime.formatted(date: .abbreviated, time: .shortened))
                             .font(.body)
                         Spacer()
@@ -41,15 +41,23 @@ struct ConfirmationView: View {
                     HStack {
                         Image(systemName: "person.2")
                             .foregroundColor(.accentColor)
-                            .frame(width: 23)
-                        Text("\(controller.currentSession.numPeople) people")
-                            .font(.body)
+                            .frame(width: 25)
+                        //This if statement deals with the special case of whether the booking contains details for one person or more than one person
+                        if controller.currentSession.numPeople == 1 {
+                            Text("1 person")
+                                .font(.body)
+                        } else {
+                            Text("\(controller.currentSession.numPeople) people")
+                                .font(.body)
+                            //obviously this change had to be done otherwise putting "1 people" or "2 person" would look silly
+                        }
+                        
                         Spacer()
                     }
                     
                     Divider()
                     
-                    // displays the booking UUID
+                    // this displays the booking UUID
                     HStack {
                         Image(systemName: "qrcode")
                             .foregroundColor(.accentColor)
@@ -57,6 +65,7 @@ struct ConfirmationView: View {
                         Text("Booking ID: \(controller.currentSession.id.uuidString.prefix(8))")
                             .font(.caption)
                             .foregroundColor(.secondary)
+                        
                         Spacer()
                     }
                 }
@@ -83,13 +92,10 @@ struct ConfirmationView: View {
                 .padding(.bottom, 20)
             }
             .padding()
-            .navigationTitle("Confirmation")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
         }
     }
 
 #Preview {
-    ConfirmationView()
-        .environment(BookingController())
+        ConfirmationView()
+            .environment(BookingController())
 }
