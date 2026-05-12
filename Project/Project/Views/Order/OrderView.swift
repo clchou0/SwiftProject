@@ -7,14 +7,6 @@
 
 import SwiftUI
 
-struct DishView: View {
-    // List the picture then
-    var body: some View {
-        // Picture, title, rightmost is a increment bar that modifies for each dish
-        EmptyView()
-    }
-}
-
 struct OrderView: View {
     var body: some View {
         // Scroll Box that has for each...
