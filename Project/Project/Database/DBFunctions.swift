@@ -40,7 +40,7 @@ func loadBookings() async -> [BookSessionModel] {
     }
 }
 
-// Loads bookings present in the DB
+// Loads bookings present in the database
 func loadRemote() async -> [BookSessionModel] {
     guard let data = UserDefaults.standard.data(forKey: "remote") else {
         return [];
