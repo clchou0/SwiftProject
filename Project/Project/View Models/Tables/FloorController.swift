@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 
-// Controls all table availability related things
+// Controls all table availability related functionality
 @Observable
 class FloorController {
-    // null: should not be in db
+    // null: should not be in the db
     
     var tables: [TableModel] =  [];
     
@@ -22,7 +22,7 @@ class FloorController {
         
     }
     
-    // Visualizes availability
+    // This function visualises availability
     func color (tableNo: Int) -> Color {
         if (selectedTable == tableNo) { return .orange; }
         
