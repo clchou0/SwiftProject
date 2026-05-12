@@ -34,6 +34,7 @@ struct BookingItem: View {
                 
                 Text("Table for \(session.numPeople)")
             }
+            Text(session.id.uuidString.prefix(8));
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -55,18 +56,19 @@ struct MyBookingsView: View {
                 
                 LazyVStack(alignment: .center, spacing: 16) {
                     ForEach(myBookings, id: \.id) { session in
-                        BookingItem(session: session)
-                        .onTapGesture {
-                            Task {
-                                await controller.loadSession(sessionID: session.id)
-                                advance = true;
-                            }
-                        }
-                        .navigationDestination(isPresented: $advance) {
-                            ConfirmationView();
+                        NavigationLink {
+                            ConfirmationView()
+                                .onAppear {
+                                    Task {
+                                        await controller.loadSession(sessionID: session.id);
+                                    }
+                                }
+                        } label: {
+                            BookingItem(session: session)
                         }
                     }
                     Spacer();
+                    Text("Tap on booking to edit")
                 }.padding(20)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

@@ -41,7 +41,7 @@ class FloorController {
         }
     }
     
-    func FetchAvailableTables(date: Date, people: Int) async {
+    func FetchAvailableTables(forSession: UUID?, date: Date, people: Int) async {
         // Pushing eligible tables, ignoring non ones
         for table in self.tables {
             if table.width == (people + 1) / 2 {
@@ -56,6 +56,8 @@ class FloorController {
         let latestNext: Date = Calendar.current.date(byAdding: .hour, value: 2, to: date)!;
         
         for book in remote {
+            // Ignore if i'm modifying current
+            if let session = forSession, session == book.id { continue; }
             // One of the valid tables
             if let tableNo = book.tableNo, booking[tableNo] != nil {
                 if (earliestPrev <= book.resvTime  && book.resvTime < earliestNext) {

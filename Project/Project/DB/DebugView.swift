@@ -58,6 +58,7 @@ struct DebugView: View {
                     VStack (alignment: .leading) {
                         Text("Booking at \(booking.resvTime, format: .dateTime.day().month(.wide).hour().minute())");
                         Text("Table for \(booking.numPeople) number \(booking.tableNo ?? -1)");
+                        Text(booking.id.uuidString.prefix(8))
                     }
                 }
             
@@ -66,6 +67,7 @@ struct DebugView: View {
                     VStack (alignment: .leading) {
                         Text("Booking at \(booking.resvTime, format: .dateTime.day().month(.wide).hour().minute())");
                         Text("Table for \(booking.numPeople) number \(booking.tableNo ?? -1)");
+                        Text(booking.id.uuidString.prefix(8))
                     }
                 }
             }
