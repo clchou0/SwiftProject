@@ -34,7 +34,7 @@ struct TablesMainView: View {
                         .fill(Color.gray.opacity(0))
                     
                     TablesChildView(
-                        tableIndex: tableIndexBinding,
+                        selectedTable: tableIndexBinding,
                         reservedTime: controller.currentSession.resvTime,
                         numPeople: controller.currentSession.numPeople
                     )
@@ -42,7 +42,8 @@ struct TablesMainView: View {
                 }
             }
             
-            Text("Each reservation will be for 2 hours")
+            Text("Each reservation will be for 2 hours\n")
+            Text("🟧: Selected Table")
             
             Button {
                 if controller.currentSession.tableNo == nil {
@@ -51,7 +52,7 @@ struct TablesMainView: View {
                     controller.saveSession()
                 }
             } label: {
-                Text("Confirm Booking")
+                Text("Proceed to Confirmation")
                     .font(serifFont)
                     .frame(maxWidth: .infinity)
                     .padding()

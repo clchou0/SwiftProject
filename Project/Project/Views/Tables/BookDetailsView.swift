@@ -158,7 +158,7 @@ struct BookDetailsView: View {
                 .dateTime
                 .weekday(.wide)
                 .day()
-                .month(.wide)
+                .month(.abbreviated)
             )).font(serifFont).foregroundStyle(.blue);
         }
     }

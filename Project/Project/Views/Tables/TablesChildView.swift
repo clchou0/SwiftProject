@@ -10,14 +10,10 @@ import SwiftUI
 struct TablesChildView: View {
     @State private var control = FloorController();
     @State private var created: Bool = false;
-    @Binding var selectedTable: Int?;
     
-    init(tableIndex: Binding<Int?>, reservedTime: Date, numPeople: Int) {
-        self._selectedTable = tableIndex;
-        control.loadTables(); // <- this will actually error too
-        created = true;
-        control.FetchAvailableTables(date: reservedTime, people: numPeople);
-    }
+    @Binding var selectedTable: Int?;
+    let reservedTime: Date;
+    let numPeople: Int;
     
     var body: some View {
         ZStack {
@@ -44,13 +40,25 @@ struct TablesChildView: View {
                     }
             }
         }.frame(width: 300, height: 400)
-        .onAppear {
-            control.loadTables();
-            created = true;
+        .task {
+            control.tables = await loadTables();
+            await control.FetchAvailableTables(date: reservedTime, people: numPeople);
         }
     }
+    
 }
 
 #Preview {
-    TablesChildView(tableIndex: .constant(nil), reservedTime: Date(), numPeople: 1)
+    TablesChildView(selectedTable: .constant(nil),
+        reservedTime: Calendar.current.date(
+            from: DateComponents(
+                year: 2026,
+                month: 5,
+                day: 16,
+                hour: 17,
+                minute: 0
+            )
+        )!,
+        numPeople: 3)
+    ;
 }

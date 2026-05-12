@@ -9,6 +9,7 @@ import SwiftUI
 
 // Shows current personal bookings
 struct BookingItem: View {
+    let session: BookSessionModel;
     var body: some View {
         
     }
@@ -16,7 +17,7 @@ struct BookingItem: View {
 
 struct MyBookingsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
     }
 }
 
