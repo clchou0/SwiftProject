@@ -48,6 +48,8 @@ func EarliestBooking() -> Date {
 struct BookDetailsView: View {
     @Environment(BookingController.self) var control;
     let sessionID: UUID?;
+    
+    // UPDATE: This should not be required if connected to homepage
     init(session: UUID?) {
         sessionID = session;
     }

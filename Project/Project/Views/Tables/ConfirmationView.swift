@@ -98,7 +98,7 @@ struct ConfirmationView: View {
                 .buttonStyle(PrimaryButtonStyle())
                 
                 Button {
-                    // Maybe back to home page?
+                    // UPDATE to home page
                     dismiss()
                 } label: {
                     Text("Done")
@@ -110,6 +110,7 @@ struct ConfirmationView: View {
             }
             .padding(20)
             .navigationDestination(isPresented: $edit) {
+                // UPDATE no argument should be needed
                 BookDetailsView(session: controller.sessionID);
             }
         }
