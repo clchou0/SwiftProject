@@ -109,7 +109,9 @@ struct BookDetailsView: View {
             }.padding(15)
         }
         .onAppear {
-            control.loadSession(sessionID: sessionID);
+            Task {
+                await control.loadSession(sessionID: sessionID);
+            }
         }
     }
     

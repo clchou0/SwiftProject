@@ -11,6 +11,8 @@ struct ConfirmationView: View {
     @Environment(BookingController.self) private var controller
     @Environment(\.dismiss) private var dismiss
     
+    @State private var edit: Bool = false;
+    
     private let serifFont: Font = .system(size: 25, design: .serif).bold()
     
     var body: some View {
@@ -86,6 +88,17 @@ struct ConfirmationView: View {
                 Spacer()
                 
                 Button {
+                    edit = true;
+                } label: {
+                    Text("Edit details")
+                        .font(serifFont)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .buttonStyle(PrimaryButtonStyle())
+                
+                Button {
+                    // Maybe back to home page?
                     dismiss()
                 } label: {
                     Text("Done")
@@ -96,6 +109,9 @@ struct ConfirmationView: View {
                 .buttonStyle(PrimaryButtonStyle())
             }
             .padding(20)
+            .navigationDestination(isPresented: $edit) {
+                BookDetailsView(session: controller.sessionID);
+            }
         }
     }
 }

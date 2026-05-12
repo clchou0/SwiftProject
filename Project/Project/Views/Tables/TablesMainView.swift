@@ -76,13 +76,13 @@ struct TablesMainView: View {
                 proceed = true;
             }
         } label: {
-            Text("Proceed to Confirmation")
+            Text("Save Booking")
                 .font(serifFont)
                 .frame(maxWidth: .infinity)
                 .padding()
         }
         .buttonStyle(PrimaryButtonStyle())
-        .alert("You have to select a table", isPresented: $showPopup) {
+        .alert("Please select a table", isPresented: $showPopup) {
             Button("OK", role: .cancel) {
                 showPopup = false
             }

@@ -18,10 +18,12 @@ class BookingController {
     var sessionID: UUID? = nil;
     var currentSession: BookSessionModel = BookSessionModel();
     // Helps visualize colors in booking map
-    func loadSession(sessionID: UUID?) {
-        
-        // Create new default version if not asked to load
-        currentSession = BookSessionModel();
+    func loadSession(sessionID: UUID?) async {
+        if let id = sessionID {
+            currentSession = await loadBookings().first(where: {$0.id == id})!
+        } else {
+            currentSession = BookSessionModel()
+        }
     }
     
     // Saves the current booking
