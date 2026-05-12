@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ConfirmationView: View {
-    @Environment(BookingController.self) var controller;
+    @Environment(BookingController.self) var controller
     @Environment(\.dismiss) private var dismissView
     //view for displaying the confirmation screen
     var body: some View {
