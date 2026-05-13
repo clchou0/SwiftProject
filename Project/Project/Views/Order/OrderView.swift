@@ -8,6 +8,30 @@
 import SwiftUI
 
 struct OrderView: View {
+    // sample menu for testing
+    let itemsOnTheMenu: [DishModel] = [
+        DishModel(
+            name: "Pizza",
+            description: "Pizza",
+            imagePath: ""
+        ),
+        DishModel(
+            name: "Cheese",
+            description: "Cheese",
+            imagePath: ""
+        ),
+        DishModel(
+            name: "Cake",
+            description: "Cake",
+            imagePath: ""
+        ),
+        DishModel(
+            name: "Steak",
+            description: "Steak",
+            imagePath: ""
+        )
+    ]
+    
     var body: some View {
         // Contains a scroll box that has for each dish in the menu
         NavigationStack {
