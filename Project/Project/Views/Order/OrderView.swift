@@ -41,8 +41,8 @@ struct OrderView: View {
                         HStack {
                             Image(menu.imagePath)
                                 .resizable()
-                                .scaledToFill()
-                                .frame(width: 30, height: 30)
+                                .scaledToFit()
+                                .frame(width: 55, height: 55)
                             
                             VStack {
                                 Text(menu.name)
