@@ -9,6 +9,8 @@ import SwiftUI
 
 struct OrderView: View {
     // sample menu for testing
+    // contains four dishes
+    // with images taken from Pexels
     let itemsOnTheMenu: [DishModel] = [
         DishModel(
             name: "Pizza",
