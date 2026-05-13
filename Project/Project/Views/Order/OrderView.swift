@@ -13,22 +13,22 @@ struct OrderView: View {
         DishModel(
             name: "Pizza",
             description: "Pizza",
-            imagePath: ""
+            imagePath: "pizza"
         ),
         DishModel(
-            name: "Cheese",
-            description: "Cheese",
-            imagePath: ""
+            name: "Ham and cheese sandwich",
+            description: "Ham and cheese sandwich",
+            imagePath: "hamandcheesesandwich"
         ),
         DishModel(
-            name: "Cake",
-            description: "Cake",
-            imagePath: ""
+            name: "Chocolate cake",
+            description: "Chocolate cake",
+            imagePath: "chocolatecake"
         ),
         DishModel(
             name: "Steak",
             description: "Steak",
-            imagePath: ""
+            imagePath: "steak"
         )
     ]
     
@@ -39,11 +39,10 @@ struct OrderView: View {
                 VStack {
                     ForEach(itemsOnTheMenu) { menu in
                         HStack {
-                            Image(systemName: "fork.knife")
-                                .font(.title2)
-                                .foregroundColor(.accentColor)
-                                .padding(10)
-                                .background(Color(.systemGray5))
+                            Image(menu.imagePath)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 30, height: 30)
                             
                             VStack {
                                 Text(menu.name)
