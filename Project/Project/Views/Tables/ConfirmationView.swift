@@ -20,9 +20,9 @@ struct ConfirmationView: View {
             VStack(spacing: 24) {
                 Spacer()
                 
-                if let id = controller.sessionID {
-                    Text(id.uuidString.prefix(8))
-                }
+//                if let id = controller.sessionID {
+//                    Text(id.uuidString.prefix(8))
+//                }
                 
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 72))

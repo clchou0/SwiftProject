@@ -17,7 +17,6 @@ struct ProjectApp: App {
             HomePageView()
                 .environmentObject(HViewModel)
                 .environment(BookingViewModel)
-                
         }
     }
 }

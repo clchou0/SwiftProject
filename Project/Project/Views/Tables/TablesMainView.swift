@@ -26,9 +26,10 @@ struct TablesMainView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if let id = controller.sessionID {
-                    Text(id.uuidString.prefix(8))
-                }
+//                if let id = controller.sessionID {
+//                    Text(id.uuidString.prefix(8))
+//                }
+                
                 Text("Booking for " + dateString).font(serifFont.bold())
                 
                 GeometryReader { geo in
@@ -52,12 +53,10 @@ struct TablesMainView: View {
                 Text("Each reservation will be for 2 hours\n")
                 Text("🟧: Selected Table")
                 
-                NavigationLink {
+                ProceedButton
+                .navigationDestination(isPresented: $proceed) {
                     ConfirmationView()
-                } label: {
-                    ProceedButton
                 }
-                
             }
             .padding(15)
             .onAppear {

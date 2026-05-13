@@ -89,8 +89,9 @@ struct BookDetailsView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 15) {
-                if let id = control.sessionID { Text(id.uuidString.prefix(8)); }
-                Text("Booking for \(name)").font(serifFont);
+//                if let id = control.sessionID { Text(id.uuidString.prefix(8)); }
+//                Text("Booking for \(name)").font(serifFont);
+                
                 DateTitleRow;
 
                 // Collapsed or not
