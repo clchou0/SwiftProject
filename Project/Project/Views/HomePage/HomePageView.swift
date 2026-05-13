@@ -41,7 +41,7 @@ struct HomePageView: View {
                 OrderView()
             }
             .sheet(isPresented: $HomeViewModel.isProfilePresented) {
-                PlaceholderSheet(title: "profile")
+                PlaceholderSheet(title: "Profile")
             }
         }
     }
