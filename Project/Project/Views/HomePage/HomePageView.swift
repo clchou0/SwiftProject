@@ -34,13 +34,14 @@ struct HomePageView: View {
             }
             .navigationBarHidden(true)
             .sheet(isPresented: $HomeViewModel.isBookingPresented) {
-                PlaceholderSheet(title: "Bookings")
+                BookDetailsView(session: nil)
+                    .environment(BookingController())
             }
             .sheet(isPresented: $HomeViewModel.isOrderPresented) {
-                PlaceholderSheet(title: "Order Now")
+                OrderView()
             }
             .sheet(isPresented: $HomeViewModel.isProfilePresented) {
-                PlaceholderSheet(title: "Profile")
+                PlaceholderSheet(title: "profile")
             }
         }
     }
