@@ -41,8 +41,7 @@ struct HomePageView: View {
                 OrderView()
             }
             .sheet(isPresented: $HomeViewModel.isProfilePresented) {
-                MyBookingsView()
-                    .environment(BookingController())
+                PlaceholderSheet(title: "Profile")
             }
         }
     }

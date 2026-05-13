@@ -26,6 +26,10 @@ struct TablesMainView: View {
     var body: some View {
         NavigationStack {
             VStack {
+//                if let id = controller.sessionID {
+//                    Text(id.uuidString.prefix(8))
+//                }
+                
                 Text("Booking for " + dateString).font(serifFont.bold())
                 
                 GeometryReader { geo in
@@ -39,7 +43,8 @@ struct TablesMainView: View {
                         TablesChildView(
                             selectedTable: tableIndexBinding,
                             reservedTime: controller.currentSession.resvTime,
-                            numPeople: controller.currentSession.numPeople
+                            numPeople: controller.currentSession.numPeople,
+                            sessionID: controller.sessionID
                         )
                         .scaleEffect(computedScale)
                     }
@@ -48,10 +53,10 @@ struct TablesMainView: View {
                 Text("Each reservation will be for 2 hours\n")
                 Text("🟧: Selected Table")
                 
-                ProceedButton.navigationDestination(isPresented: $proceed) {
-                    ConfirmationView();
+                ProceedButton
+                .navigationDestination(isPresented: $proceed) {
+                    ConfirmationView()
                 }
-                
             }
             .padding(15)
             .onAppear {

@@ -14,6 +14,7 @@ struct TablesChildView: View {
     @Binding var selectedTable: Int?;
     let reservedTime: Date;
     let numPeople: Int;
+    let sessionID: UUID?;
     
     var body: some View {
         ZStack {
@@ -42,7 +43,7 @@ struct TablesChildView: View {
         }.frame(width: 300, height: 400)
         .task {
             control.tables = await loadTables();
-            await control.FetchAvailableTables(date: reservedTime, people: numPeople);
+            await control.FetchAvailableTables(forSession: sessionID, date: reservedTime, people: numPeople);
         }
     }
     
@@ -59,6 +60,7 @@ struct TablesChildView: View {
                 minute: 0
             )
         )!,
-        numPeople: 3)
-    ;
+        numPeople: 3,
+        sessionID: nil
+    )
 }
