@@ -1,10 +1,14 @@
 # SwiftProject - 41889 Assignment 3
 
+## Team members
+
 Main Page - Mikhail Zhelnin 14524159
 
 Alik Orgun 24949531 (Github username: 004-bigal) - Helped with annotations and views
 
 Chang-Lin Chou 26510812 - Table selection logic and interface
+
+## Important links
 
 Presentation Link: https://docs.google.com/presentation/d/1eOv7L3u20MbcUyN_TnjRg2_BRhF0S0p3C1bKzpjdYac/edit?usp=sharing
 
