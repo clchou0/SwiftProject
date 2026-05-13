@@ -37,7 +37,35 @@ struct OrderView: View {
         NavigationStack {
             ScrollView {
                 VStack {
-                    
+                    ForEach(itemsOnTheMenu) { menu in
+                        HStack {
+                            Image(systemName: "fork.knife")
+                                .font(.title2)
+                                .foregroundColor(.accentColor)
+                                .padding(10)
+                                .background(Color(.systemGray5))
+                            
+                            VStack {
+                                Text(menu.name)
+                                    .font(.headline)
+                                if let description = menu.description {
+                                    Text(description)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            Spacer()
+                            
+                            Text("$15")
+                                .font(.headline)
+                                .foregroundColor(.accentColor)
+                        }
+                        .padding(.horizontal)
+                        if menu.id != itemsOnTheMenu.last?.id {
+                            Divider()
+                                .padding(.horizontal)
+                        }
+                    }
                 }
             }
             .navigationTitle("RESTAURANT MENU")
