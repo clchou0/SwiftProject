@@ -21,6 +21,7 @@ class BookingController {
     func loadSession(sessionID: UUID?) async {
         if let id = sessionID {
             currentSession = await loadBookings().first(where: {$0.id == id})!
+            self.sessionID = id;
         } else {
             currentSession = BookSessionModel()
         }
