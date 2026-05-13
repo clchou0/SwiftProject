@@ -37,12 +37,13 @@ struct OrderView: View {
         NavigationStack {
             ScrollView {
                 VStack {
+                    Text("Menu").font(.system(size: 30, design: .serif))
                     ForEach(itemsOnTheMenu) { menu in
                         HStack {
                             Image(menu.imagePath)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 55, height: 55)
+                                .frame(width: 100, height: 100)
                             
                             VStack {
                                 Text(menu.name)
@@ -65,9 +66,8 @@ struct OrderView: View {
                                 .padding(.horizontal)
                         }
                     }
-                }
+                }.padding(10)
             }
-            .navigationTitle("RESTAURANT MENU")
             .navigationBarTitleDisplayMode(.inline)
         }
     }
