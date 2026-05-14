@@ -7,7 +7,8 @@
 
 import Combine
 import SwiftUI
- 
+
+
 final class ProfileViewModel: ObservableObject {
     private let detailsKey = "userDetails"
  
@@ -15,11 +16,12 @@ final class ProfileViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var phone: String = ""
  
-    // True while the user is editing their details.
+    
     @Published var isEditing: Bool = false
  
     init() {load()}
  
+    // reads saved details from UserDefaults and populates the published propertes
     func load(){
         guard let data = UserDefaults.standard.data(forKey: detailsKey),
               let decoded = try? JSONDecoder().decode(StoredDetails.self, from: data)
@@ -43,12 +45,12 @@ final class ProfileViewModel: ObservableObject {
         
     }
  
+    // reloads saved details
     func discardChanges(){
         load()
         isEditing = false
     }
- 
-    // Codable counterpart for DetailsModel
+
     private struct StoredDetails: Codable {
         
         var name: String
@@ -64,9 +66,11 @@ struct ProfileView: View {
     @Environment(BookingController.self) private var bookingController
     @StateObject private var vm = ProfileViewModel()
  
+    // bookings loaded from UserDefaults on appear
     @State private var myBookings: [BookSessionModel] = []
     @State private var showClearAlert = false
  
+    // serif fonts used consistently across view
     private let serif: Font = .system(size: 20, design: .serif).bold()
     private let sectionSerif: Font = .system(size: 16, design: .serif).bold()
  
@@ -91,11 +95,12 @@ struct ProfileView: View {
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                
+
                 ToolbarItem(placement: .navigationBarLeading){
                     Button("Close") { dismiss() }
                 }
                 
+                // toggles edit mode and switches to save button while editing
                 ToolbarItem(placement: .navigationBarTrailing){
                     if vm.isEditing {
                         Button("Save"){vm.save()}
@@ -107,12 +112,15 @@ struct ProfileView: View {
                 }
             }
         }
+        
         .task {myBookings = await loadBookings()}
     }
  
+    // circule gradient avatar showing initials, with name and deets below
     private var avatarSection: some View {
         VStack(spacing: 10){
             ZStack {
+                // gradient circle background for pfp
                 Circle()
                     .fill(LinearGradient(
                         colors: [Color.accentColor, Color.purple],
@@ -122,17 +130,20 @@ struct ProfileView: View {
                 
                     .frame(width: 80, height: 80)
  
+                // initials for pfp
                 Text(initials)
                     .font(.system(size: 30, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
                 
             }
  
+            // only shows when a names been saved
             if !vm.name.isEmpty {
                 Text(vm.name)
                     .font(.title3.weight(.semibold))
             }
             
+            // only shows when an emails been saved
             if !vm.email.isEmpty {
                 Text(vm.email)
                     .font(.subheadline)
@@ -143,11 +154,13 @@ struct ProfileView: View {
         .padding(.top, 8)
     }
  
+    // card containing editable name, email, and phone rows
     private var detailsCard: some View {
         VStack(alignment: .leading, spacing: 0){
             
             sectionHeader("Personal Details", icon: "person.fill")
  
+            // each row shows a label and value and switches to a text field in edit mode
             VStack(spacing: 0){
                 profileRow(
                     
@@ -189,16 +202,24 @@ struct ProfileView: View {
             .background(Color(.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 14))
  
+            // only visiblee in edit mode, reloads saved data and exits editing
             if vm.isEditing {
-                Button("Discard changes"){vm.discardChanges()}
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.top, 6)
+                Button {
+                    vm.discardChanges()
+                } label: {
+                    Label("Discard changes", systemImage: "arrow.uturn.backward")
+                        .foregroundColor(.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                }
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .padding(.top, 8)
             }
         }
     }
  
+    // shows a tappable list of bookings, or an empty state placeholder
     private var bookingsSection: some View {
         
         VStack(alignment: .leading, spacing: 12){
@@ -207,6 +228,7 @@ struct ProfileView: View {
             if myBookings.isEmpty {
                 emptyBookingsPlaceholder
             } else {
+                // Each booking navigates to ConfirmationView and loads its session.
                 VStack(spacing: 12){
                     ForEach(myBookings){ session in NavigationLink {
                             ConfirmationView().onAppear {
@@ -223,6 +245,7 @@ struct ProfileView: View {
         }
     }
  
+    // shown when there are no bookings to display
     private var emptyBookingsPlaceholder: some View {
         
         VStack(spacing: 10){
@@ -238,7 +261,7 @@ struct ProfileView: View {
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
- 
+
     private func sectionHeader(_ title: String, icon: String) -> some View {
         
         Label(title, systemImage: icon)
@@ -260,7 +283,7 @@ struct ProfileView: View {
     ) -> some View {
         
         HStack(spacing: 14){
-            
+
             Image(systemName: icon)
                 .frame(width: 24)
                 .foregroundColor(.accentColor)
@@ -268,12 +291,14 @@ struct ProfileView: View {
  
             VStack(alignment: .leading, spacing: 2){
                 
+                // small caption label above the value.
                 Text(label)
                     .font(.caption)
                     .foregroundColor(.secondary)
  
                 if editing {
                     
+                    // editable text field with appropriate keyboard type
                     TextField(placeholder, text: value)
                         .keyboardType(keyboard)
                         .autocorrectionDisabled()
@@ -293,6 +318,7 @@ struct ProfileView: View {
         .padding(.vertical, 12)
     }
  
+    // extracts two initials from the username for the avatar
     private var initials: String {
         
         let words = vm.name.split(separator: " ")
