@@ -12,7 +12,7 @@ Jayden Deen 24753562 - Implemented profile view
 
 ## Important links
 
-Presentation Link: https://docs.google.com/presentation/d/1eOv7L3u20MbcUyN_TnjRg2_BRhF0S0p3C1bKzpjdYac/edit?usp=sharing
+Presentation Link: https://canva.link/w3po94kv918i706
 
 Git Repo Link: https://github.com/clchou0/SwiftProject
 
