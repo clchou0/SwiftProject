@@ -17,7 +17,14 @@ struct ProjectApp: App {
             HomePageView()
                 .environmentObject(HViewModel)
                 .environment(BookingViewModel)
+                .task{
+                    resetTables()
+                    resetBookings()
+                    resetRemote()
+                }
         }
+        
     }
+    
 }
 // This structure is the entry point for the application.
