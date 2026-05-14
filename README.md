@@ -8,6 +8,8 @@ Alik Orgun 24949531 (Github username: 004-bigal) - Helped with annotations and v
 
 Chang-Lin Chou 26510812 - Table selection logic and interface
 
+Jayden Deen 24753562 - Implemented profile view 
+
 ## Important links
 
 Presentation Link: https://docs.google.com/presentation/d/1eOv7L3u20MbcUyN_TnjRg2_BRhF0S0p3C1bKzpjdYac/edit?usp=sharing
