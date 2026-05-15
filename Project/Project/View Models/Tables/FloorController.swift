@@ -11,16 +11,9 @@ import SwiftUI
 // Controls all table availability related functionality
 @Observable
 class FloorController {
-    // null: should not be in the db
-    
     var tables: [TableModel] =  [];
-    
     var booking: [Int: TableStatus] = [:];
     var selectedTable: Int?;
-    
-    init() {
-        
-    }
     
     // This function visualises availability
     func color (tableNo: Int) -> Color {

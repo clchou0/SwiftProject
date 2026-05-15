@@ -11,7 +11,7 @@ struct TablesMainView: View {
     @Environment(BookingController.self) var controller;
     @State private var computedScale = 1.0;
     @State private var showPopup: Bool = false;
-    
+
     var tableIndexBinding: Binding<Int?> {
         Binding(
             get: { controller.currentSession.tableNo },
@@ -44,7 +44,7 @@ struct TablesMainView: View {
                             selectedTable: tableIndexBinding,
                             reservedTime: controller.currentSession.resvTime,
                             numPeople: controller.currentSession.numPeople,
-                            sessionID: controller.sessionID
+                            sessionID: controller.sessionID,
                         )
                         .scaleEffect(computedScale)
                     }
