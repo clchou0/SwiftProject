@@ -2,7 +2,7 @@
 
 ## Team members
 
-Main Page - Mikhail Zhelnin 14524159
+Mikhail Zhelnin 14524159 - Main Page
 
 Alik Orgun 24949531 (Github username: 004-bigal) - Helped with annotations and views
 
