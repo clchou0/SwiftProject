@@ -49,13 +49,13 @@ class BookingController {
         }
 
         // add or update a booking of either type
-        if sessionID == nil {
-            bookings.append(currentSession)
-            remote.append(currentSession)
-        } else {
-            // editing case
+        if sessionID != nil {
+            bookings.removeAll { $0.id == sessionID }
+            remote.removeAll { $0.id == sessionID }
         }
-
+        bookings.append(currentSession)
+        remote.append(currentSession)
+        
         // saves an in person booking
         do {
             let data = try JSONEncoder().encode(bookings)

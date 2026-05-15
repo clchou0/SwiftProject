@@ -12,6 +12,8 @@ enum TableStatus: Equatable {
     case reserved
     case short(Int)  // Maybe one reserved for 2 hrs later (less than window)
     case available
+    
+    
 }
 
 // For visualising the table

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ConfirmationView: View {
     @Environment(BookingController.self) private var controller
+    @EnvironmentObject var HomeViewModel: HomeViewModel
     @Environment(\.dismiss) private var dismiss
     
     @State private var edit: Bool = false;
@@ -19,10 +20,6 @@ struct ConfirmationView: View {
         NavigationStack {
             VStack(spacing: 24) {
                 Spacer()
-                
-//                if let id = controller.sessionID {
-//                    Text(id.uuidString.prefix(8))
-//                }
                 
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 72))
@@ -100,17 +97,6 @@ struct ConfirmationView: View {
                         .padding()
                 }
                 .buttonStyle(PrimaryButtonStyle())
-                
-                Button {
-                    // UPDATE to home page
-                    dismiss()
-                } label: {
-                    Text("Done")
-                        .font(serifFont)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                }
-                .buttonStyle(PrimaryButtonStyle())
             }
             .padding(20)
             .navigationDestination(isPresented: $edit) {
@@ -122,5 +108,7 @@ struct ConfirmationView: View {
 }
 
 #Preview {
-    ConfirmationView().environment(BookingController())
+    ConfirmationView()
+        .environment(BookingController())
+        .environmentObject(HomeViewModel())
 }

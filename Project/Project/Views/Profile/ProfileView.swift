@@ -7,58 +7,6 @@
 
 import Combine
 import SwiftUI
-
-
-final class ProfileViewModel: ObservableObject {
-    private let detailsKey = "userDetails"
- 
-    @Published var name: String  = ""
-    @Published var email: String = ""
-    @Published var phone: String = ""
- 
-    
-    @Published var isEditing: Bool = false
- 
-    init() {load()}
- 
-    // reads saved details from UserDefaults and populates the published propertes
-    func load(){
-        guard let data = UserDefaults.standard.data(forKey: detailsKey),
-              let decoded = try? JSONDecoder().decode(StoredDetails.self, from: data)
-        else {return}
-        
-        name  = decoded.name
-        email = decoded.email ?? ""
-        phone = decoded.phone ?? ""
-        
-    }
- 
-    func save(){
-        
-        let details = StoredDetails(name: name, email: email.isEmpty ? nil : email, phone: phone.isEmpty ? nil : phone)
-        
-        if let data = try? JSONEncoder().encode(details){
-            UserDefaults.standard.set(data, forKey: detailsKey)
-        }
-        
-        isEditing = false
-        
-    }
- 
-    // reloads saved details
-    func discardChanges(){
-        load()
-        isEditing = false
-    }
-
-    private struct StoredDetails: Codable {
-        
-        var name: String
-        var email: String?
-        var phone: String?
-        
-    }
-}
  
 struct ProfileView: View {
     
@@ -231,9 +179,9 @@ struct ProfileView: View {
                 // Each booking navigates to ConfirmationView and loads its session.
                 VStack(spacing: 12){
                     ForEach(myBookings){ session in NavigationLink {
-                            ConfirmationView().onAppear {
-                                    Task {await bookingController.loadSession(sessionID: session.id)}
-                                }
+                        ConfirmationView().onAppear {
+                            Task {await bookingController.loadSession(sessionID: session.id)}
+                            }
                         
                         } label: {
                             BookingItem(session: session)
