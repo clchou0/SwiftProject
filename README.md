@@ -2,13 +2,13 @@
 
 ## Team members
 
-Mikhail Zhelnin 14524159 - Main Page
+Mikhail Zhelnin 14524159 (Github username: wzzs-378) - Main Page
 
-Alik Orgun 24949531 (Github username: 004-bigal) - Helped with annotations and views
+Alik Orgun 24949531 (Github username: 004-bigal) - Confirmation and Menu views, with extra notations
 
 Chang-Lin Chou 26510812 - Table selection logic and interface
 
-Jayden Deen 24753562 - Implemented profile view 
+Jayden Deen 24753562 (Github username: jdexe) - Implemented profile view 
 
 ## Important links
 
