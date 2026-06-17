@@ -11,16 +11,9 @@ import SwiftUI
 // Controls all table availability related functionality
 @Observable
 class FloorController {
-    // null: should not be in the db
-    
     var tables: [TableModel] =  [];
-    
     var booking: [Int: TableStatus] = [:];
     var selectedTable: Int?;
-    
-    init() {
-        
-    }
     
     // This function visualises availability
     func color (tableNo: Int) -> Color {
@@ -80,19 +73,19 @@ class FloorController {
     func SelectTable(tableNo: Int) -> Bool {
         if let status = booking[tableNo] {
             switch (status) {
-                case .short, .available:
+            case .available, .short:
                     if (self.selectedTable == tableNo) {
                         self.selectedTable = nil;
                     } else {
                         self.selectedTable = tableNo;
                     }
+                return true
                 case .reserved:
                     return false;
             }
         } else {
             return false;
         }
-        return true;
     }
     
     /**

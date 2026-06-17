@@ -50,7 +50,8 @@ struct TablesChildView: View {
 }
 
 #Preview {
-    TablesChildView(selectedTable: .constant(nil),
+    TablesChildView(
+        selectedTable: .constant(nil),
         reservedTime: Calendar.current.date(
             from: DateComponents(
                 year: 2026,

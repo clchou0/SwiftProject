@@ -13,6 +13,7 @@ enum Display {
     case remote;
 }
 
+// Visualizing db when editing, shows data of table, booking & remote
 struct DebugView: View {
     @State var tables: [TableModel] = []
     @State var bookings: [BookSessionModel] = []

@@ -30,10 +30,15 @@ func loadBookings() async -> [BookSessionModel] {
         return [];
     }
     do {
-        return try JSONDecoder().decode(
+        var bookings: [BookSessionModel] = try JSONDecoder().decode(
             [BookSessionModel].self,
             from: data
         )
+        bookings = bookings.filter { $0.resvTime > Date() }
+        bookings = bookings.sorted { $0.resvTime < $1.resvTime }
+        
+        
+        return bookings
     } catch {
         print(error)
         return []
@@ -79,6 +84,24 @@ func resetTables() {
 
 func resetBookings() {
     UserDefaults.standard.removeObject(forKey: "bookings");
+    let date: Date = Calendar.current.date(
+        from: DateComponents(
+            year: 2026,
+            month: 5,
+            day: 14,
+            hour: 5,
+            minute: 0
+        )
+    )!
+    let bookings: [BookSessionModel] = [
+        BookSessionModel(table: 4, Time: date, People: 3, Name: "Matthew"),
+    ]
+    do {
+        let data = try JSONEncoder().encode(bookings)
+        UserDefaults.standard.set(data, forKey: "bookings")
+    } catch {
+        print(error)
+    }
 }
     
 func resetRemote() {
@@ -103,7 +126,7 @@ func makeDate(hour: Int, minute: Int = 0) -> Date {
         from: DateComponents(
             year: 2026,
             month: 5,
-            day: 16,
+            day: 22,
             hour: hour,
             minute: minute
         )

@@ -18,9 +18,9 @@ struct ProjectApp: App {
                 .environmentObject(HViewModel)
                 .environment(BookingViewModel)
                 .task{
-                    resetTables()
-                    resetBookings()
-                    resetRemote()
+                    if UserDefaults.standard.object(forKey: "tables") == nil { resetTables() }
+                    if UserDefaults.standard.object(forKey: "bookings") == nil { resetBookings() }
+                    if UserDefaults.standard.object(forKey: "remote") == nil { resetRemote() }
                 }
         }
         
